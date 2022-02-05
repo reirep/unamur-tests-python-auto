@@ -61,7 +61,7 @@ class StepRunner:
                 break
 
             for i in range(len(actions[-1])-1, -1, -1):
-                if actions[-1][i] == self.steps[len(actions)-1].get_nbr_possible_actions():
+                if actions[-1][i] == self.steps[len(actions)-1].get_nbr_possible_actions()-1:
                     actions[-1][i] = 0
                 else:
                     actions[-1][i] += 1
@@ -92,17 +92,42 @@ class StepRunner:
 
         # Parsing
         while True:
-            # debug yield
-            yld = ""
-            for action in actions:
-                for a in action:
-                    yld += str(a)
-                    yld += ","
-                yld += " - "
-            yield yld
+            yield actions
 
             # rollback; we have too much steps
             try:
                 actions = self.__exploration_rollback__(actions)
             except EndOfParse:
                 break
+
+    def compare_codes(self):
+
+        for actions in self.__generate_combinations__():
+            # build the execution fns we are going have this time
+            fns = []
+            for index in range(0, len(actions)):
+                if not actions[index]:
+                    fns.append([])
+                    continue
+                fns.append(self.steps[index].get_actions_list(actions[index]))
+
+            # Execute the fns here and compare
+            for step in fns:
+                for action in step:
+                    prof_except = False
+                    try:
+                        action[0]()
+                    except Exception:
+                        prof_except = True
+
+                    try:
+                        action[1]()
+                    except Exception:
+                        if prof_except:
+                            continue
+                        else:
+                            # TODO report the fail here
+                            print("Found a way to make the student code break", actions)
+
+
+

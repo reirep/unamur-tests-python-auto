@@ -34,9 +34,14 @@ For the parameters
 ## Notes
 All the challenge will be in determining the domain of the input
 
+=> When a failing test is discovered for a student, save it on the student profile / for all the tests ?
+
 ## TODO
 
+- Create an error recorder ?  
+
 - fuzzy step testing
+  - protect against code running for too long 
   - add the support for parameter in the steps searching
   - add a form of A* optimization / alpha beta pruning
 - all the missing testing type

@@ -10,9 +10,8 @@ from testing.steps.StepsRunner import StepRunner
 
 if __name__ == '__main__':
     runner = StepRunner()
-    runner.add_step(Step([lambda x: x], [lambda x: x]))
-    runner.add_step(Step([lambda x: x, lambda x: x], [lambda x: x, lambda x: x]))
-    runner.add_step(Step([lambda x: x], [lambda x: x]))
+    runner.add_step(Step([lambda: 0], [lambda: 0]))
+    runner.add_step(Step([lambda: 0, lambda: 0], [lambda: 0, lambda: 1/0]))
+    runner.add_step(Step([lambda: 0], [lambda: 0]))
 
-    for poss in runner.__generate_combinations__():
-        print(poss)
+    runner.compare_codes()
