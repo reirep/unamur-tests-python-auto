@@ -4,7 +4,7 @@ from testing.steps.exceptions.IncompatibleRequestForConfig import IncompatibleRe
 
 class Step:
 
-    def __init__(self, actions_array_reference, actions_array_tested, min_depth_local=1, max_depth_local=10):
+    def __init__(self, actions_array_reference, actions_array_tested, min_depth_local=2, max_depth_local=3):
         """
         This object represents a set of operation that can be done at a given step
 
