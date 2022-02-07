@@ -7,9 +7,14 @@
 # Press the green button in the gutter to run the script.
 from testing.steps.Step import Step
 from testing.steps.StepsRunner import StepRunner
+from testing.symbolic.symbolic import analyse_file
 
 if __name__ == '__main__':
-    runner = StepRunner()
+    analyse_file("resources/code_bidon.py", "lol")
+
+
+def step_analyse():
+    runner = StepRunner(stop_on_first_error=True)
     runner.add_step(Step([lambda: 0], [lambda: 0]))
     runner.add_step(Step([lambda: 0, lambda: 0], [lambda: 0, lambda: 1/0]))
     runner.add_step(Step([lambda: 0], [lambda: 0]))

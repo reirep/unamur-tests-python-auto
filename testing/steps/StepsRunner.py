@@ -5,13 +5,14 @@ from testing.steps.exceptions.EndOfParse import EndOfParse
 class StepRunner:
 
     def __init__(self, stop_on_first_failure=True, min_depth=1, max_depth=25, save_failed_case_on_exit=True,
-                 max_seconds_execution=60):
+                 max_seconds_execution=60, stop_on_first_error=False):
         self.steps = []
         self.stop_on_first_failure = stop_on_first_failure
         self.min_depth = min_depth
         self.max_depth = max_depth
         self.save_failed_case_on_exit = save_failed_case_on_exit
         self.max_seconds_execution = max_seconds_execution
+        self.stop_on_first_error=stop_on_first_error
 
     def add_step(self, step):
         """
@@ -114,20 +115,28 @@ class StepRunner:
             # Execute the fns here and compare
             for step in fns:
                 for action in step:
-                    prof_except = False
+                    ref_except = False
+                    test_except = False
+
                     try:
                         action[0]()
                     except Exception:
-                        prof_except = True
+                        ref_except = True
 
                     try:
                         action[1]()
                     except Exception:
-                        if prof_except:
-                            continue
-                        else:
-                            # TODO report the fail here
+                        test_except = True
+
+                    if ref_except != test_except:
+                        if test_except:
                             print("Found a way to make the student code break", actions)
+                        elif ref_except:
+                            print("the tested code did not raised an error when the ref code did", actions)
+
+                        if self.stop_on_first_error:
+                            return
+
 
 
 
