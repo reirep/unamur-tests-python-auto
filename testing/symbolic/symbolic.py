@@ -3,7 +3,6 @@ from _ast import FunctionDef
 
 from testing.symbolic.context import Context
 
-
 # to_parse is pile of context that still needs to be recursively parsed
 to_parse = []
 
@@ -13,7 +12,7 @@ conditions_list = []
 
 
 def analyse_file(path, functionFocus):
-    #TODO check if the file exists
+    # TODO check if the file exists
     with open(path) as f:
         content = f.read()
         analyse_str(content, functionFocus)
@@ -62,7 +61,7 @@ def __parse_element__():
 
     current = to_parse.pop()
 
-    #TODO register the current context in conditions_list
+    # TODO register the current context in conditions_list
 
     switch = {
         type(ast.FunctionDef): __parse_element_fn__(),
@@ -80,7 +79,3 @@ def __parse_element_fn__():
 def __parse_element_if__():
     # TODO
     pass
-
-
-
-

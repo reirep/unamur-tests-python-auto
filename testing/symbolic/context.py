@@ -27,6 +27,7 @@ class Context:
         return copy.copy(self.context_name)
 
     def add_condition(self, condition):
-        if not isinstance(condition, MonoCondition) and not isinstance(condition, BiCondition) and not isinstance(condition, TriCondition):
+        if not isinstance(condition, MonoCondition) and not isinstance(condition, BiCondition) and not isinstance(
+                condition, TriCondition):
             raise ValueError("Unrecognized input class")
         self.conditions.append(condition)
