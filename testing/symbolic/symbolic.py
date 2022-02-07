@@ -32,11 +32,17 @@ def analyse_str(code, functionFocus):
         if isinstance(definition, FunctionDef) and definition.name == functionFocus:
             __analyse_function_root__(definition)
 
+    # TODO condition list optimisation I
+    # TODO condition list resolution
+    # TODO condition list optimisation II
+    # TODO condition list convertion
+    # TODO return
 
-def __analyse_function_root__(functionDefinition):
+
+def __analyse_function_root__(function_definition):
     global to_parse
 
-    to_parse.append(Context(functionDefinition, functionDefinition.name))
+    to_parse.append(Context(function_definition, function_definition.name))
 
     while to_parse:
         __parse_element__()
@@ -56,7 +62,24 @@ def __parse_element__():
 
     current = to_parse.pop()
 
+    #TODO register the current context in conditions_list
+
+    switch = {
+        type(ast.FunctionDef): __parse_element_fn__(),
+        type(ast.If): __parse_element_if__()
+        # Il y a 26 struct __ast.stmt que je vais devoir prendre en compte ici...
+    }
+    switch.get(type(current.ast))
+
+
+def __parse_element_fn__():
     # TODO
+    pass
+
+
+def __parse_element_if__():
+    # TODO
+    pass
 
 
 
