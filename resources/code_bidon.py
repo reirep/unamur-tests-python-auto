@@ -2,8 +2,10 @@
 def lol(a):
     if 666 == a:
         print('ok')
+    elif 777 == a:
+        print("wooo")
     else:
-        print("ko")
+        print(a * 3)
 
 
 def lol2(a):

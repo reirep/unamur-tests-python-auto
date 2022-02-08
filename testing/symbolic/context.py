@@ -26,8 +26,11 @@ class Context:
     def get_context_name(self):
         return copy.copy(self.context_name)
 
-    def add_condition(self, condition):
-        if not isinstance(condition, MonoCondition) and not isinstance(condition, BiCondition) and not isinstance(
-                condition, TriCondition):
-            raise ValueError("Unrecognized input class")
-        self.conditions.append(condition)
+    def add_condition_inverted(self, condition):
+        self.add_condition(condition, inverted=True)
+
+    def add_condition(self, condition, inverted=False):
+        print("condition dummy add")
+        # TODO: rework into a real condition encoding
+        # a gerer
+        # ast.Compare

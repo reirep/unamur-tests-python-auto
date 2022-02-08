@@ -59,8 +59,17 @@ https://pypi.org/project/python-constraint/
 return condition and unateignable branchs
 
 TODO:
+- ajouter un regisrte  à constantes
+- filtrer les contextes intéressants à la fin: pas besoin d'avoir les ctx des popotes internes au branche si elles
+n'amenent nulle part
 - limiter profondeur
 - mechanisme anti boucles / recursion
+
+IMPORTNANT !!! : résolution des condition des boucles est IMPOSSBILE ! Voir "Halting problem" en cs
+  Une simplification et approche limitée est la seule solution possible.
+  Ou bien execution simplifiée controlée ?
+
+Note importante bis: le parse python optimise le code: aka les stments inutiles seront virés sans wanr
 
 ### Partition testing
 
