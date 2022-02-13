@@ -136,7 +136,3 @@ class StepRunner:
 
                         if self.stop_on_first_error:
                             return
-
-
-
-

@@ -81,7 +81,9 @@ TODO
 
 ### Fuzzing
 
-TODO
+en cours, check fuzezing module
+
+TODO check pour le timeout
 
 ### Fault injection
 

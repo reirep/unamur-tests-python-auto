@@ -1,7 +1,5 @@
 import copy
 
-from testing.symbolic.Condition import MonoCondition, BiCondition, TriCondition
-
 CONTEXT_SEPARATOR = "."
 
 
@@ -30,7 +28,7 @@ class Context:
         self.add_condition(condition, inverted=True)
 
     def add_condition(self, condition, inverted=False):
-        print("condition dummy add")
+        print("condition dummy add ", condition)
         # TODO: rework into a real condition encoding
         # a gerer
         # ast.Compare
