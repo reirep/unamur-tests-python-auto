@@ -32,7 +32,7 @@ def analyse_semantic():
 
 # This one is on it's way
 def fuzz_it():
-    fuzz(bidon, bidon_validate, [Int(), Int()], runs=10000)
+    fuzz(bidon, bidon_validate, [Int(), Int()], runs=1000)
 
 
 if __name__ == '__main__':
