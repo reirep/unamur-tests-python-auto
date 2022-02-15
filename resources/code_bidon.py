@@ -15,13 +15,13 @@ def lol2(a):
         print("gpkjehjgb")
 
 
-def bidon(args):
+def bidon(a, b):
     res = 0
-    if args[0] > 10:
-        res = args[0] / 2
-    elif args[1] < 2:
-        res += args[1] * 3
-    return (args[0] - args[1] + res) / (11-args[0])
+    if a > 10:
+        res = a / 2
+    elif b < 2:
+        res += b * 3
+    return (a - b + res) / (11-a)
 
 
 def bidon_validate(a):

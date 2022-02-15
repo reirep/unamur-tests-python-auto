@@ -56,7 +56,7 @@ class LineRunner(Runner):
         try:
             #with timeout(self.timeout): # TODO debug
             with Coverage() as cov:
-                res = self.fn(self.args)
+                res = self.fn(*self.args)
             self.coverage = len(cov.coverage())
 
             if self.fn_validate(res):
