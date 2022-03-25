@@ -10,7 +10,14 @@ class Input:
         return []
 
     def get_random(self):
+        """
+        :return: a new, completely random seed for this input
+        """
         raise NotImplementedError
 
     def mutate(self, value):
+        """
+        :param value: the base input
+        :return: a new , mutated by a bit, value
+        """
         raise NotImplementedError

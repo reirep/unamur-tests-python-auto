@@ -83,9 +83,6 @@ TODO
 
 en cours, check fuzezing module
 
-TODO check pour le call de fonction:
-https://stackoverflow.com/questions/52990801/lambda-function-unknown-number-of-arguments
-
 TODO check pour le timeout
 
 ### Fault injection

@@ -1,3 +1,5 @@
+from testing.feedback.ErrorLog import ErrorLog
+from testing.feedback.errorRepporter import ErrorReporter
 from testing.steps.Step import Step
 from testing.steps.exceptions.EndOfParse import EndOfParse
 
@@ -12,7 +14,7 @@ class StepRunner:
         self.max_depth = max_depth
         self.save_failed_case_on_exit = save_failed_case_on_exit
         self.max_seconds_execution = max_seconds_execution
-        self.stop_on_first_error=stop_on_first_error
+        self.stop_on_first_error = stop_on_first_error
 
     def add_step(self, step):
         """
@@ -54,15 +56,15 @@ class StepRunner:
             if not actions:
                 raise EndOfParse("end of parse")
 
-            if self.__unique_element__(actions[-1], self.steps[len(actions)-1].get_nbr_possible_actions()-1):
-                if len(actions[-1]) == self.steps[len(actions)-1].max_depth_local:
+            if self.__unique_element__(actions[-1], self.steps[len(actions) - 1].get_nbr_possible_actions() - 1):
+                if len(actions[-1]) == self.steps[len(actions) - 1].max_depth_local:
                     actions = actions[:-1]
                     continue
                 actions[-1] = [0] * (len(actions[-1]) + 1)
                 break
 
-            for i in range(len(actions[-1])-1, -1, -1):
-                if actions[-1][i] == self.steps[len(actions)-1].get_nbr_possible_actions()-1:
+            for i in range(len(actions[-1]) - 1, -1, -1):
+                if actions[-1][i] == self.steps[len(actions) - 1].get_nbr_possible_actions() - 1:
                     actions[-1][i] = 0
                 else:
                     actions[-1][i] += 1
@@ -101,7 +103,7 @@ class StepRunner:
             except EndOfParse:
                 break
 
-    def compare_codes(self):
+    def compare_codes(self, reporter: ErrorReporter):
 
         for actions in self.__generate_combinations__():
             # build the execution fns we are going have this time
@@ -115,24 +117,26 @@ class StepRunner:
             # Execute the fns here and compare
             for step in fns:
                 for action in step:
-                    ref_except = False
-                    test_except = False
+                    ref_except = None
+                    test_except = None
 
                     try:
                         action[0]()
-                    except Exception:
-                        ref_except = True
+                    except Exception as e:
+                        ref_except = e
 
                     try:
                         action[1]()
-                    except Exception:
-                        test_except = True
+                    except Exception as e:
+                        test_except = e
 
-                    if ref_except != test_except:
+                    if type(ref_except).__name__ != type(test_except).__name__:
                         if test_except:
-                            print("Found a way to make the student code break", actions)
+                            reporter.add_error(ErrorLog("combination runner", test_except,
+                                                        "the tested code broke", actions))
                         elif ref_except:
-                            print("the tested code did not raised an error when the ref code did", actions)
-
+                            reporter.add_error(ErrorLog("combination runner", ref_except,
+                                                        "the tested code did not raised an error when the ref code did",
+                                                        actions))
                         if self.stop_on_first_error:
                             return

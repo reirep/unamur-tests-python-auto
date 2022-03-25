@@ -8,6 +8,7 @@ class Seed:
         self.score = 0
         self.values = values
         self.result = Result.UNAVAILABLE
+        self.error = None
 
     def get_score(self):
         if self.result == Result.PASS:
@@ -21,7 +22,8 @@ class Seed:
         return self.result
 
     def set_result(self, result):
-        self.result = result
+        self.result = result[0]
+        self.error = result[1]
 
     def get_values(self):
         return copy.deepcopy(self.values)

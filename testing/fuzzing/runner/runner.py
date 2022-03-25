@@ -8,9 +8,10 @@ class Runner:
         self.args = args
         self.timeout = timeout_seconds
         self.result = Result.UNAVAILABLE
+        self.error = None
 
     def get_result(self):
-        return self.result
+        return self.result, self.error
 
     def get_score(self):
         raise NotImplementedError

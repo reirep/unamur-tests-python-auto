@@ -1,6 +1,7 @@
 import copy
 import random
 
+from testing.feedback.errorRepporter import ErrorReporter
 from testing.fuzzing.Results import Result
 from testing.fuzzing.runner.line_runner import LineRunner
 from testing.fuzzing.seed import Seed
@@ -98,5 +99,5 @@ class Fuzzer:
         res = []
         for seed in self.seeds:
             if seed.get_result() == Result.FAIL:
-                res.append(seed.get_values())
+                res.append((seed.get_values(), seed.error))
         return res

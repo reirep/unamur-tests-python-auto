@@ -5,9 +5,6 @@ from fuzzingbook.Coverage import Coverage
 from testing.fuzzing.Results import Result
 from testing.fuzzing.exceptions.TimeoutException import TimeoutException
 from testing.fuzzing.runner.runner import Runner
-from testing.fuzzing.timeout import timeout
-from pebble import concurrent
-from concurrent.futures import TimeoutError
 
 
 # Copied and modified from the fuzzing book
@@ -54,7 +51,6 @@ class LineRunner(Runner):
 
     def run(self):
         try:
-            #with timeout(self.timeout): # TODO debug
             with Coverage() as cov:
                 res = self.fn(*self.args)
             self.coverage = len(cov.coverage())
@@ -63,8 +59,10 @@ class LineRunner(Runner):
                 self.result = Result.PASS
             else:
                 self.result = Result.FAIL
+                self.error = Exception("the given output was not valid")
         except TimeoutException:
             self.result = Result.TIMEOUT
             self.coverage = 0
-        except Exception:
+        except Exception as e:
             self.result = Result.FAIL
+            self.error = e
