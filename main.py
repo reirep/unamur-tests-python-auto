@@ -5,11 +5,12 @@
 
 
 # Press the green button in the gutter to run the script.
-from resources.code_bidon import bidon, bidon_validate
+from resources.code_bidon import bidon, bidon_validate, bidon_deux
 from testing.feedback.errorRepporter import ErrorReporter
 from testing.feedback.textRepporter import TestRepporter
 from testing.fuzzing.fuzz import fuzz
 from testing.fuzzing.input.int import Int
+from testing.fuzzing.token.magic_token_finder import find_token
 from testing.steps.Step import Step
 from testing.steps.StepsRunner import StepRunner
 from testing.symbolic.symbolic import analyse_file
@@ -35,7 +36,14 @@ def fuzz_it(reporter: ErrorReporter):
     fuzz(reporter, bidon, bidon_validate, [Int(), Int()], runs=1000)
 
 
+def token_finder(fn):
+    find_token(fn)
+
+
 if __name__ == '__main__':
+    token_finder(bidon_deux)
+    exit(0)
+
     reporter = TestRepporter()
 
     step_analyse(reporter)
