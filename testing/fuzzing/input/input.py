@@ -21,6 +21,12 @@ class Input:
         """
         raise NotImplementedError
 
+    def can_mutate(self):
+        """
+        Will return if the type is able to be mutated
+        """
+        return True
+
     def mutate(self, value):
         """
         :param value: the base input

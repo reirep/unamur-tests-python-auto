@@ -82,7 +82,10 @@ class Fuzzer:
             new_values = selected_seed.get_values()
 
             for i in range(len(new_values)):
-                new_values[i] = self.inputs[i].mutate(new_values[i])
+                if self.inputs[i].can_mutate():
+                    new_values[i] = self.inputs[i].mutate(new_values[i])
+                else:
+                    new_values[i] = new_values[i]
 
             # run it
             new_seed = Seed(new_values)
