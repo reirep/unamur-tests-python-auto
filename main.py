@@ -5,7 +5,7 @@
 
 
 # Press the green button in the gutter to run the script.
-from resources.code_bidon import bidon, bidon_validate, bidon_deux
+from resources.code_bidon import bidon, bidon_validate, bidon_deux, call_fn
 from testing.feedback.errorRepporter import ErrorReporter
 from testing.feedback.textRepporter import TestRepporter
 from testing.fuzzing.fuzz import fuzz
@@ -32,22 +32,27 @@ def analyse_semantic(reporter: ErrorReporter):
 
 
 # This one is on it's way
-def fuzz_it(reporter: ErrorReporter):
-    fuzz(reporter, bidon, bidon_validate, [Int(), Int()], runs=1000)
+def fuzz_it(reporter: ErrorReporter, modu: [str]):
+    fuzz(reporter, bidon, bidon_validate, [Int(), Int()], modu, runs=1000)
 
 
-def token_finder(fn):
-    find_token(fn)
+def token_finder(fn, modu):
+    tokens = find_token(fn, modu)
+
+    for token in tokens:
+        print(token)
 
 
 if __name__ == '__main__':
-    token_finder(bidon_deux)
+    valid_modules = ["resources.code_bidon"]
+
+    token_finder(call_fn, valid_modules)
     exit(0)
 
     reporter = TestRepporter()
 
     step_analyse(reporter)
-    fuzz_it(reporter)
+    fuzz_it(reporter, valid_modules)
 
     for line in reporter.get_output():
         print(line)

@@ -35,6 +35,26 @@ def bidon_vil(a: int, b: int):
 
 def bidon_deux(a, b):
     a: int = 2
+    bidon_trois(a, b)
+
+
+def bidon_trois(a, b):
+    a: int = 5
+    bidon_quatre(a, b)
+
+
+def bidon_quatre(a, b):
+    a: int = 7
+    bidon_cinq(a, b)
+
+
+def bidon_cinq(a, b):
+    a: int = 9
+    print("ok")
+
+
+def call_fn(a, b):
+    bidon_deux(a, b)
 
 
 def bidon_validate(a):

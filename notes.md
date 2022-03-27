@@ -99,12 +99,13 @@ All the challenge will be in determining the domain of the input
 
 - static parsing of the code to find magic token
   - [x] done in magic_token_finder, now integrate that into the fuzzer 
-  - [ ] resolve the method to follow them
+  - [x] resolve the method to follow them
+  - [x] manage module scoping for the function resolution
   - [ ] resolve static expression to find more magic token
 
 - add args detection to the fuzzer (annotation or dynamic detection)
 
-- edit the runner in a way that allow to just pass a function
+- edit the runner in a way that allow to just pass a function (moar syntaxic sugar :D )
 
 - combine the fuzzer and the combination of steps
 

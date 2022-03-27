@@ -4,8 +4,9 @@ from testing.fuzzing.fuzzer import Fuzzer
 from testing.fuzzing.token.magic_token_finder import find_token
 
 
-def fuzz(reporter: ErrorReporter, fn, fn_validate, inputs, timeout_execution=1, runs=10000):
+def fuzz(reporter: ErrorReporter, fn, fn_validate, inputs, valid_modules, timeout_execution=1, runs=10000):
     """
+    :param valid_modules: the list of modules that will be recursively parsed for magic tokens
     :param reporter: the error reporter that is going to be used to bring back up the errors
     :param fn: the function to test
     :param fn_validate: the function that given the output of fn will return true if the output is ok
@@ -17,12 +18,12 @@ def fuzz(reporter: ErrorReporter, fn, fn_validate, inputs, timeout_execution=1, 
     """
 
     # find all the magic token and add them to the base inputs
-    candidates = find_token(fn)
-    candidates.add(find_token(fn_validate))
+    candidates = find_token(fn, valid_modules)
+    for candidate in find_token(fn_validate, valid_modules):
+        candidates.add(candidate)
 
     for input_type in inputs:
         input_type.integrate_by_type(candidates)
-
 
     # create the runner with the function given and start it
     r = Fuzzer(fn, fn_validate, inputs, runs, timeout_execution)

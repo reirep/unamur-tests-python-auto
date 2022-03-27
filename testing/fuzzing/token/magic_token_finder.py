@@ -1,26 +1,61 @@
 import ast
+import copy
 import inspect
+import sys
 import textwrap
+
+import astunparse
 
 to_parse = []
 magic_token = set()
 
+allowed_modules = []
 
-def find_token(f):
+
+def find_token(f, modules):
     """
     With the lambda as an input, parse it and try to find ou what are the magi token / expression that it contains
+    :param modules: the list of module for witch the parser will recursively try to resolve the encountered function
     :param f: the lambda
     :return: a list of magic tokens
     """
-    src = None
+    global allowed_modules
+
+    allowed_modules = modules
+
+    src = __get_src__(f)
+    root_token_tree = ast.parse(textwrap.dedent(src)).body
+    return __analyse_function_root__(root_token_tree)
+
+
+def __get_src__(f):
     try:
-        src = inspect.getsource(f)
+        return inspect.getsource(f)
     except OSError:
         print("failed to convert back the lambda to code")
         exit(-1)
 
-    root_token_tree = ast.parse(textwrap.dedent(src)).body
-    __analyse_function_root__(root_token_tree)
+
+def __get_fn__(fn_id):
+    """
+    Will return [] if the function has not been found.
+    The role of this code is to resolve the potential fn from a module, not to
+    check if the fn is valid
+    will return all match. This can lead to confusion and some inefficiency but the context is not
+    available from the call thus we shoot wide
+    :param fn_id:
+    :return:
+    """
+    global allowed_modules
+
+    res = []
+
+    for module_str in allowed_modules:
+        module = sys.modules[module_str]
+        if hasattr(module, fn_id):
+            res.append(getattr(module, fn_id))
+
+    return res
 
 
 def __analyse_function_root__(elements):
@@ -49,6 +84,8 @@ def __parse_element__():
         __parse_element_fn__(current)
     elif isinstance(current, ast.ClassDef):
         pass
+    elif isinstance(current, ast.Module):
+        __parse_element_module__(current)
 
     # Import stuff
     elif isinstance(current, ast.Import):
@@ -127,13 +164,8 @@ def __parse_element__():
         __parse_element_name__(current)
     elif isinstance(current, type(None)):
         pass  # we don't care about that one
-
-
     else:
         print("unhandled pattern: {}".format(type(current)))
-
-    # DEBUG:
-    print("just parsed ", current)
 
 
 def __parse_element_fn__(element):
@@ -225,7 +257,7 @@ def __parse_element_aug_assign__(element):
 
     to_parse.append(element.value)
 
-    # TODO maybe there is a poss of integrating that int oa static evaluation scheme
+    # TODO maybe there is a poss of integrating that int os a static evaluation scheme
 
 
 def __parse_element_expr__(element):
@@ -234,14 +266,27 @@ def __parse_element_expr__(element):
     to_parse.append(element.value)
 
 
+def __parse_element_module__(element):
+    global to_parse
+
+    for elem in element.body:
+        to_parse.append(elem)
+
+
 def __parse_element_call__(element):
     global to_parse
 
     for arg in element.args:
         to_parse.append(arg)
 
-    pass
-    # TODO: handle the func resolution => resolve then pile it and don't forget to set limits
+    fns = __get_fn__(element.func.id)
+
+    if not fns:
+        return
+
+    for fn in fns:
+        src = __get_src__(fn)
+        to_parse.append(ast.parse(src))
 
 
 def __parse_element_lambda__(element):
