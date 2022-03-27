@@ -98,14 +98,20 @@ All the challenge will be in determining the domain of the input
 ## TODO
 
 - static parsing of the code to find magic token
-- 
-- resolve static expression to find more magic token
+  - [x] done in magic_token_finder, now integrate that into the fuzzer 
+  - [ ] resolve the method to follow them
+  - [ ] resolve static expression to find more magic token
 
 - add args detection to the fuzzer (annotation or dynamic detection)
 
 - edit the runner in a way that allow to just pass a function
 
 - combine the fuzzer and the combination of steps
+
+- add time limit
+
+- ajouter un fuzzer qui teste par lignes "hot" et "cold" (aka, si une seed passe sur une ligne qu'on n'execute
+  jamais, elle ramassera pas mal de points)
 
 - fuzzy step testing
     - protect against code running for too long

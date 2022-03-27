@@ -45,3 +45,9 @@ class Str(Input):
 
         return modifiers[random.randint(0, len(modifiers)-1)](value)
 
+    def integrate_by_type(self, candidates):
+        for candidate in candidates:
+            if isinstance(candidate, str):
+                self.specials.append(candidate)
+
+

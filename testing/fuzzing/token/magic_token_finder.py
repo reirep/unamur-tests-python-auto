@@ -8,7 +8,7 @@ magic_token = set()
 
 def find_token(f):
     """
-    Wil ltka e almbda as an input, parse it and try to find ou what are the magi token / expression that it contains
+    With the lambda as an input, parse it and try to find ou what are the magi token / expression that it contains
     :param f: the lambda
     :return: a list of magic tokens
     """
@@ -33,7 +33,7 @@ def __analyse_function_root__(elements):
     while len(to_parse) != 0:
         __parse_element__()
 
-    print(magic_token)
+    return magic_token
 
 
 def __parse_element__():

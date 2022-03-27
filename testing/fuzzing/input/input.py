@@ -1,7 +1,13 @@
-
 class Input:
     def __init__(self):
         pass
+
+    def integrate_by_type(self, candidates):
+        """
+        Will take a list of candidates as an input and integrate the compatibles one as internal base seeds
+        :param candidates: the set of potential candidates
+        """
+        raise NotImplementedError
 
     def get_special_cases(self):
         """

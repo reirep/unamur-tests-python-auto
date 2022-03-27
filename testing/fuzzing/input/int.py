@@ -25,3 +25,8 @@ class Int(Input):
 
     def get_random(self):
         return random.randint(-sys.maxsize, sys.maxsize)
+
+    def integrate_by_type(self, candidates):
+        for candidate in candidates:
+            if isinstance(candidate, int):
+                self.specials.append(candidate)
