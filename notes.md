@@ -103,23 +103,28 @@ All the challenge will be in determining the domain of the input
   - [x] manage module scoping for the function resolution
   - [ ] resolve static expression to find more magic token
 
-- add args detection to the fuzzer (annotation or dynamic detection)
+- [x] add bool type
 
-- edit the runner in a way that allow to just pass a function (moar syntaxic sugar :D )
+- [ ] add args detection to the fuzzer (annotation)
 
-- combine the fuzzer and the combination of steps
+- [ ] combine the fuzzer and the combination of steps
 
-- add time limit
+- [ ] edit the runner in a way that allow to just pass a function (moar syntaxic sugar :D )
+
+- [ ] add time limit
 
 - ajouter un fuzzer qui teste par lignes "hot" et "cold" (aka, si une seed passe sur une ligne qu'on n'execute
   jamais, elle ramassera pas mal de points)
 
+- all the missing testing type
+
+- add args detection to the fuzzer (dynamic detection)
+
 - fuzzy step testing
-    - protect against code running for too long
     - add a mex global depth
     - add the support for parameter in the steps searching
     - add a form of A* optimization / alpha beta pruning
-- all the missing testing type
+    - 
 - state comparer (compare les embriquement de classes entre le code exemple et le code élève)
 
 - checkout comment créer des profils de tests pour que une entrée qui aie cassé le code d'un étudiant soie restée sans

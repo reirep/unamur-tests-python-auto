@@ -40,14 +40,14 @@ def token_finder(fn, modu):
     tokens = find_token(fn, modu)
 
     for token in tokens:
-        print(token)
+        print("token discovered: {}".format(token))
 
 
 if __name__ == '__main__':
     valid_modules = ["resources.code_bidon"]
 
     token_finder(call_fn, valid_modules)
-    exit(0)
+    #exit(0)
 
     reporter = TestRepporter()
 
