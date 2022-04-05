@@ -10,8 +10,9 @@ class Str(Input):
         self.max_char = char_max
         self.max_size = max_size
         self.specials = [""]
-        for special in additional_special:
-            self.specials.append(special)
+        if additional_special:
+            for special in additional_special:
+                self.specials.append(special)
 
     def get_special_cases(self):
         return self.specials

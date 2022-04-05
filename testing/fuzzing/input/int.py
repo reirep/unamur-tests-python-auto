@@ -14,8 +14,9 @@ class Int(Input):
         self.max = max_val
         self.specials = [0, self.min, self.max]
         self.mutation_range = mutation_range
-        for additional in additional_special:
-            self.specials.append(additional)
+        if additional_special:
+            for additional in additional_special:
+                self.specials.append(additional)
 
     def get_special_cases(self):
         return self.specials

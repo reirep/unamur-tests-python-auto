@@ -1,0 +1,2 @@
+class SourceReversingError(Exception):
+    pass

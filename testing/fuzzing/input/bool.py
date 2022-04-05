@@ -2,7 +2,7 @@ import random
 from testing.fuzzing.input.input import Input
 
 
-class Int(Input):
+class Bool(Input):
     def get_special_cases(self):
         return [True, False]
 

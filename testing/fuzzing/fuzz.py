@@ -1,10 +1,19 @@
+import ast
+import inspect
+import textwrap
+
 from testing.feedback.ErrorLog import ErrorLog
 from testing.feedback.errorRepporter import ErrorReporter
+from testing.fuzzing.exceptions.FunctionNotAnotatedError import FunctionNotAnotatedError
+from testing.fuzzing.exceptions.SourceReversingError import SourceReversingError
 from testing.fuzzing.fuzzer import Fuzzer
+from testing.fuzzing.input.bool import Bool
+from testing.fuzzing.input.int import Int
+from testing.fuzzing.input.str import Str
 from testing.fuzzing.token.magic_token_finder import find_token
 
 
-def fuzz(reporter: ErrorReporter, fn, fn_validate, inputs, valid_modules, timeout_execution=1, runs=10000):
+def fuzz_explicit_arguments(reporter: ErrorReporter, fn, fn_validate, inputs, valid_modules, timeout_execution=1, runs=10000):
     """
     :param valid_modules: the list of modules that will be recursively parsed for magic tokens
     :param reporter: the error reporter that is going to be used to bring back up the errors
@@ -32,3 +41,36 @@ def fuzz(reporter: ErrorReporter, fn, fn_validate, inputs, valid_modules, timeou
 
     for i in input_fail:
         reporter.add_error(ErrorLog("fuzzer", i[1], "the fuzzer broke the code with those inputs", i[0]))
+
+
+def fuzz(reporter: ErrorReporter, fn, fn_validate, valid_modules, timeout_execution=1, runs=10000):
+    types = __get_annoted_type__(fn)
+    return fuzz_explicit_arguments(reporter, fn, fn_validate, types, valid_modules, timeout_execution, runs)
+
+
+def __get_annoted_type__(fn):
+    src = None
+    try:
+        src = inspect.getsource(fn)
+    except OSError:
+        raise SourceReversingError()
+
+    res = []
+
+    for arg in ast.parse(textwrap.dedent(src)).body[0].args.args:
+        if not arg.annotation:
+            raise FunctionNotAnotatedError()
+
+        res.append(__get_type_from_str(arg.annotation.id))
+
+    return res
+
+
+def __get_type_from_str(name):
+    if name == "int":
+        return Int()
+    if name == "bool":
+        return Bool()
+    if name == "str":
+        return Str()
+    raise NotImplementedError()

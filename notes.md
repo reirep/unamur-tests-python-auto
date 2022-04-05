@@ -105,7 +105,7 @@ All the challenge will be in determining the domain of the input
 
 - [x] add bool type
 
-- [ ] add args detection to the fuzzer (annotation)
+- [x] add args detection to the fuzzer (annotation)
 
 - [ ] combine the fuzzer and the combination of steps
 
