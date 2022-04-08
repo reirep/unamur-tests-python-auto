@@ -109,6 +109,8 @@ All the challenge will be in determining the domain of the input
 
 - [ ] create a basic inginous integration [link](https://docs.inginious.org/en/v0.7/admin_doc/install_doc/installation.html#installing-inginious)
 
+- [ ] add a stop after one fail option to the fuzzer
+
 - [ ] add a global and per-run timeout
 
 - [ ] make a simplified interface

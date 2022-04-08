@@ -10,14 +10,14 @@ import student_code
 
 # Reference function
 
-def proper_adder(a, b):
-    return a + b
+def adder_validate(a:int, b:int, res:int):
+    return res == a + b
 
 # Run the fuzzer
 
 reporter = TestRepporter()
 valid_modules = ["student", "student.student_code", "student_code"]
-fuzz(reporter, student_code.adder, proper_adder, valid_modules, runs=1000)
+fuzz(reporter, student_code.adder, adder_validate, valid_modules, runs=1000)
 
 # grab the results
 

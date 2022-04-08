@@ -104,8 +104,8 @@ def __parse_element__():
     # Matching
     elif isinstance(current, ast.If):
         __parse_element_if__(current)
-    elif isinstance(current, ast.Match):
-        __parse_element_match__(current)
+    # elif isinstance(current, ast.Match): #DEBUG: not present in the python version of intellij ?
+    #    __parse_element_match__(current)
 
     # Boucles
     elif isinstance(current, ast.For):

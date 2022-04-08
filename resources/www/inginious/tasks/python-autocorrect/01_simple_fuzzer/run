@@ -10,5 +10,5 @@ if [ "$output" = "ok" ]; then
 	feedback-msg -em "Your code is correct"
 else
   feedback-result failed
-  feedback-msg -em "$output"
+  echo "${output}" | feedback-msg
 fi

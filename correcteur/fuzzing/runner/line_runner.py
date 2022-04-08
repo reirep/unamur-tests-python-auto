@@ -49,11 +49,11 @@ class LineRunner(Runner):
 
     def run(self):
         try:
-            with Coverage() as cov:
+            with CoverageCustom() as cov:
                 res = self.fn(*self.args)
             self.coverage = len(cov.coverage())
 
-            if self.fn_validate(res):
+            if self.fn_validate(*self.args, res):
                 self.result = Result.PASS
             else:
                 self.result = Result.FAIL
