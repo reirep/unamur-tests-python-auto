@@ -107,6 +107,12 @@ All the challenge will be in determining the domain of the input
 
 - [x] add args detection to the fuzzer (annotation)
 
+- [ ] create a basic inginous integration [link](https://docs.inginious.org/en/v0.7/admin_doc/install_doc/installation.html#installing-inginious)
+
+- [ ] add a global and per-run timeout
+
+- [ ] make a simplified interface
+
 - [ ] combine the fuzzer and the combination of steps
 
 - [ ] edit the runner in a way that allow to just pass a function (moar syntaxic sugar :D )

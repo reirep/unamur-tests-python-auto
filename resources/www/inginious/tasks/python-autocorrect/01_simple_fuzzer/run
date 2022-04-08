@@ -1,0 +1,14 @@
+#!/bin/bash
+
+parsetemplate --output student/student_code.py template.py
+output=$(run_student python3 student/fuzzer_correct.py)
+
+#output=$(ls student)
+
+if [ "$output" = "ok" ]; then
+  feedback-result success
+	feedback-msg -em "Your code is correct"
+else
+  feedback-result failed
+  feedback-msg -em "$output"
+fi

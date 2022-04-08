@@ -1,0 +1,36 @@
+name: python-autocorrect
+admins:
+- superadmin
+description: ''
+tutors: []
+groups_student_choice: true
+use_classrooms: true
+accessible: true
+allow_unregister: true
+allow_preview: false
+registration: true
+registration_password: null
+registration_ac: null
+registration_ac_list:
+- '  '
+is_lti: false
+lti_keys: {}
+lti_send_back_grade: false
+task_dispenser: toc
+dispenser_data:
+-   config:
+        closed: false
+    id: list_of_exercises
+    rank: 0
+    tasks_list:
+        01_simple_fuzzer: 0
+        02_combiner_alone: 1
+        03_combined_fuzzer: 2
+    title: List of exercises
+lti_url: ''
+tags:
+    Computation:
+        type: 1
+        visible: true
+        name: Computation
+        description: Looks like computation error !

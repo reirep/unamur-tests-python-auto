@@ -1,0 +1,3 @@
+
+class EndOfParse(Exception):
+    pass

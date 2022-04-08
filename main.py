@@ -6,14 +6,14 @@
 
 # Press the green button in the gutter to run the script.
 from resources.code_bidon import bidon, bidon_validate, bidon_deux, call_fn, bidon_vil
-from testing.feedback.errorRepporter import ErrorReporter
-from testing.feedback.textRepporter import TestRepporter
-from testing.fuzzing.fuzz import fuzz_explicit_arguments, fuzz
-from testing.fuzzing.input.int import Int
-from testing.fuzzing.token.magic_token_finder import find_token
-from testing.steps.Step import Step
-from testing.steps.StepsRunner import StepRunner
-from testing.symbolic.symbolic import analyse_file
+from correcteur.feedback.errorRepporter import ErrorReporter
+from correcteur.feedback.textRepporter import TestRepporter
+from correcteur.fuzzing.fuzz import fuzz_explicit_arguments, fuzz
+from correcteur.fuzzing.input.int import Int
+from correcteur.fuzzing.token.magic_token_finder import find_token
+from correcteur.steps.Step import Step
+from correcteur.steps.StepsRunner import StepRunner
+from correcteur.symbolic.symbolic import analyse_file
 
 
 # This one is kinda finished

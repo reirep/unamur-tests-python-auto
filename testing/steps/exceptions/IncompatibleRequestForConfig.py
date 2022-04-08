@@ -1,3 +1,0 @@
-
-class IncompatibleRequestForConfig(Exception):
-    pass

@@ -1,0 +1,84 @@
+accessible: true
+author: Pierre Ortegat
+categories: []
+contact_url: ''
+context: |+
+    .. container:: row
+
+        .. container:: col-md-10 text-justify
+
+            Unfinished task about the power of a combiner !
+
+environment_id: default
+environment_parameters:
+    limits:
+        time: '30'
+        hard_time: ''
+        memory: '100'
+    run_cmd: ''
+environment_type: docker
+evaluate: best
+file: ''
+groups: false
+input_random: '0'
+name: 2. Combiner alone
+network_grading: false
+order: 5
+problems:
+    init:
+        type: code
+        name: Init
+        header: |-
+            Write a function here that will init a linked list.
+            The code will be added as the body of the function::
+                class linkedlist:
+                    def __init__():
+                        #code will be inserted here
+
+            You can create any internal variable
+        language: python
+        default: ''
+    add:
+        type: code
+        name: Add
+        header: |
+            Write a function here that will add an element at the end of the linked list if the default argument is not set.
+            The code will be added as the body of the function::
+                class linkedlist:
+                    # Others methods of the exercice will come here
+
+                    def add(element):
+                        #code will be inserted here
+        language: python
+        default: ''
+    remove:
+        type: code
+        name: Remove
+        header: |-
+            Write a function here that will remove the last element of the linked list.
+            The code you'll write will be added as the body of the function::
+                class linkedlist:
+                    # Others methods of the exercice will come here
+
+                    def remove():
+                        #code will be inserted here
+        language: python
+        default: ''
+    last:
+        type: code
+        name: Last
+        header: |-
+            Write a function here that will fetch the last element of the linked list.
+            The code you'll write will be added as the body of the function::
+                class linkedlist:
+                    # Others methods of the exercice will come here
+
+                    def last():
+                        #code will be inserted here
+        language: python
+        default: ''
+stored_submissions: 0
+submission_limit:
+    amount: -1
+    period: -1
+weight: 1.0

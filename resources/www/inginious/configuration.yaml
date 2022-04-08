@@ -1,0 +1,17 @@
+backend: local
+backup_directory: backup
+local-config:
+    concurrency: 8
+mongo_opt:
+    database: INGInious
+    host: localhost
+plugins: []
+session_parameters:
+    ignore_change_ip: true
+    secret_key: 82ab4dd1d2c1a2b79b491031d4e9d7a104fd9b390e00aad069a44dac63a08618
+    secure: false
+    timeout: 9999999
+superadmins:
+- superadmin
+tasks_directory: tasks
+use_minified_js: false

@@ -1,0 +1,3 @@
+
+class IncompatibleRequestForConfig(Exception):
+    pass
