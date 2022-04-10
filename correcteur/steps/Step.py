@@ -1,10 +1,12 @@
+from typing import Optional
+
 from correcteur.steps.exceptions.IllegalAction import IllegalAction
 from correcteur.steps.exceptions.IncompatibleRequestForConfig import IncompatibleRequestForConfig
 
 
 class Step:
 
-    def __init__(self, actions_array_reference, actions_array_tested, min_depth_local=1, max_depth_local=3):
+    def __init__(self, actions_array_reference, actions_array_tested, nice_names=[], min_depth_local=1, max_depth_local=3):
         """
         This object represents a set of operation that can be done at a given step
 
@@ -17,6 +19,7 @@ class Step:
         self.min_depth_local = min_depth_local
         self.actions_array_reference = actions_array_reference
         self.actions_array_tested = actions_array_tested
+        self.names = nice_names
 
     def get_nbr_possible_actions(self):
         """
@@ -50,3 +53,8 @@ class Step:
             test.append(self.actions_array_tested[action])
 
         return zip(ref, test)
+
+    def get_action_name(self, index) -> Optional[str]:
+        if not self.names or len(self.names) != len(self.actions_array_reference):
+            return None
+        return self.names[index]

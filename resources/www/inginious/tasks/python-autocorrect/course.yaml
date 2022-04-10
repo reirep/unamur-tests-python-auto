@@ -24,8 +24,7 @@ dispenser_data:
     rank: 0
     tasks_list:
         01_simple_fuzzer: 0
-        02_combiner_alone: 1
-        03_combined_fuzzer: 2
+        02_combiner_alone_ref: 1
     title: List of exercises
 lti_url: ''
 tags:

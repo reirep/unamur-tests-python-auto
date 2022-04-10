@@ -17,5 +17,5 @@ class ErrorReporter:
         if len(self.get_output()) != 0:
             for line in self.get_output():
                 res += line
-                res += "<br/>"
+                res += "\n"
         return res

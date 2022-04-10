@@ -1,7 +1,7 @@
 #!/bin/bash
 
 parsetemplate --output student/student_code.py template.py
-output=$(run_student python3 student/fuzzer_correct.py)
+output=$(run_student python3 student/combiner_correct.py)
 
 if [ "$output" = "ok" ]; then
   feedback-result success

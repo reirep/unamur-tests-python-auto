@@ -1,5 +1,5 @@
 class ErrorLog:
-    def __init__(self, methode: str, error: Exception, message: str, inputs: []):
+    def __init__(self, methode: str, error: Exception, message: str):
         """
         log an error that occured during the correcteur of the code
         :param methode: what method had been used to break the code
@@ -10,5 +10,3 @@ class ErrorLog:
         self.methode = methode
         self.error = error
         self.message = message
-        self.inputs = inputs
-        pass

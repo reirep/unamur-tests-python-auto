@@ -25,7 +25,7 @@ problems:
         type: code
         name: A simple python exercice
         header: |
-            In this exercice, the goal is to create a function that will add two number.
+            In this exercice, the goal is to create a function that will add two number and return the result.
 
             Your code will be inserted in this function::
 

@@ -7,9 +7,11 @@ context: |+
 
         .. container:: col-md-10 text-justify
 
-            Unfinished task about the power of a combiner !
+            A task about the power of a combiner !
 
-environment_id: default
+            Run the student code against a reference code.
+
+environment_id: python3-correcteur
 environment_parameters:
     limits:
         time: '30'
@@ -21,7 +23,7 @@ evaluate: best
 file: ''
 groups: false
 input_random: '0'
-name: 2. Combiner alone
+name: 2. Combiner alone with reference code
 network_grading: false
 order: 5
 problems:
@@ -30,9 +32,11 @@ problems:
         name: Init
         header: |-
             Write a function here that will init a linked list.
+
             The code will be added as the body of the function::
-                class linkedlist:
-                    def __init__():
+
+                class LinkedList:
+                    def __init__(self):
                         #code will be inserted here
 
             You can create any internal variable
@@ -43,11 +47,13 @@ problems:
         name: Add
         header: |
             Write a function here that will add an element at the end of the linked list if the default argument is not set.
+
             The code will be added as the body of the function::
-                class linkedlist:
+
+                class LinkedList:
                     # Others methods of the exercice will come here
 
-                    def add(element):
+                    def add(self, element):
                         #code will be inserted here
         language: python
         default: ''
@@ -56,11 +62,13 @@ problems:
         name: Remove
         header: |-
             Write a function here that will remove the last element of the linked list.
+
             The code you'll write will be added as the body of the function::
-                class linkedlist:
+
+                class LinkedList:
                     # Others methods of the exercice will come here
 
-                    def remove():
+                    def remove(self):
                         #code will be inserted here
         language: python
         default: ''
@@ -69,11 +77,13 @@ problems:
         name: Last
         header: |-
             Write a function here that will fetch the last element of the linked list.
+
             The code you'll write will be added as the body of the function::
-                class linkedlist:
+
+                class LinkedList:
                     # Others methods of the exercice will come here
 
-                    def last():
+                    def last(self):
                         #code will be inserted here
         language: python
         default: ''

@@ -16,7 +16,7 @@ def adder_validate(a:int, b:int, res:int):
 # Run the fuzzer
 
 reporter = TestRepporter()
-valid_modules = ["student", "student.student_code", "student_code"]
+valid_modules = ["student_code"]
 fuzz(reporter, student_code.adder, adder_validate, valid_modules, runs=1000)
 
 # grab the results

@@ -18,7 +18,7 @@ class StepRunner:
 
     def add_step(self, step):
         """
-        This will add a step to hte current runner. THe added step will be placed after the previously
+        This will add a step to the current runner. THe added step will be placed after the previously
         defined ones
         :param step: the step that is going to be added
         """
@@ -27,7 +27,7 @@ class StepRunner:
 
         self.steps.append(step)
 
-    def get_step(self, index):
+    def get_step(self, index) -> Step:
         """
         Allow to fetch a given step
         :param index: the index of the step, indexed from 0
@@ -103,6 +103,21 @@ class StepRunner:
             except EndOfParse:
                 break
 
+    def __actions_to_nice_name__(self, actions) -> str:
+        res = ""
+
+        for setIndex in range(len(actions)):
+            step = self.get_step(setIndex)
+            for actionIndex in range(len(actions[setIndex])):
+                current = step.get_action_name(actions[setIndex][actionIndex])
+                if not current:
+                    return str(actions)
+                if setIndex != 0 or actionIndex != 0:
+                    res += " -> "
+                res += current
+
+        return res
+
     def compare_codes(self, reporter: ErrorReporter):
 
         for actions in self.__generate_combinations__():
@@ -117,26 +132,43 @@ class StepRunner:
             # Execute the fns here and compare
             for step in fns:
                 for action in step:
+                    ref_return = None
                     ref_except = None
+
+                    test_return = None
                     test_except = None
 
                     try:
-                        action[0]()
+                        ref_return = action[0]()
                     except Exception as e:
                         ref_except = e
 
                     try:
-                        action[1]()
+                        test_return = action[1]()
                     except Exception as e:
                         test_except = e
 
                     if type(ref_except).__name__ != type(test_except).__name__:
-                        if test_except:
+                        if isinstance(test_except, Exception):
                             reporter.add_error(ErrorLog("combination runner", test_except,
-                                                        "the tested code broke", actions))
-                        elif ref_except:
+                                                        "the tested code broke (appels: {})"
+                                                        .format(self.__actions_to_nice_name__(actions))))
+                        elif isinstance(ref_except, Exception):
                             reporter.add_error(ErrorLog("combination runner", ref_except,
-                                                        "the tested code did not raised an error when the ref code did",
-                                                        actions))
+                                                        "the tested code did not raise an error when the ref code did (appels: {})"
+                                                        .format(self.__actions_to_nice_name__(actions))))
+                        if self.stop_on_first_error:
+                            return
+                        else:
+                            continue
+
+                    if ref_return != test_return:
+                        reporter.add_error(ErrorLog("combination runner",
+                                                    None,
+                                                    "the return of the reference code and the tested code differ (ref: {} - test: {}) (appels: {})"
+                                                    .format(ref_return, test_return,
+                                                            self.__actions_to_nice_name__(actions))
+                                                    )
+                                           )
                         if self.stop_on_first_error:
                             return

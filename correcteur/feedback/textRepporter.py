@@ -7,6 +7,6 @@ class TestRepporter(ErrorReporter):
         res = []
         for error in self.errors:
             res.append(
-                "[{method}] The error \"{error}\" has been triggered with the inputs {input} ({msg})".format(
-                    error=error.error, method=error.methode, input=error.inputs, msg=error.message))
+                "[{method}] {msg} (Error: \"{error}\")".format(
+                    error=error.error, method=error.methode, msg=error.message))
         return res

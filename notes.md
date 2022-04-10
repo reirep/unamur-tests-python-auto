@@ -108,8 +108,24 @@ All the challenge will be in determining the domain of the input
 - [x] add args detection to the fuzzer (annotation)
 
 - [ ] create a basic inginous integration [link](https://docs.inginious.org/en/v0.7/admin_doc/install_doc/installation.html#installing-inginious)
+  - [x] of the fuzzer with a checker function
+  - [ ] of the fuzzer without reference code
+  - [x] of the combiner with some reference code
+  - [ ] of the combiner without reference code
+
+- [x] combiner add nice_name
+
+- [ ] combiner add controlled entropy sources
 
 - [ ] add a stop after one fail option to the fuzzer
+
+- [x] combiner compare the output also
+
+- [ ] combiner allow no ref fn mode
+
+- [ ] combiner add allowed errors
+
+- [ ] combiner add option to only report the exception of the tested code
 
 - [ ] add a global and per-run timeout
 

@@ -40,7 +40,7 @@ def fuzz_explicit_arguments(reporter: ErrorReporter, fn, fn_validate, inputs, va
     input_fail = r.get_errors_seeds()
 
     for i in input_fail:
-        reporter.add_error(ErrorLog("fuzzer", i[1], "the fuzzer broke the code with those inputs", i[0]))
+        reporter.add_error(ErrorLog("fuzzer", i[1], "the fuzzer broke the code  (inputs: {})".format(i[0])))
 
 
 def fuzz(reporter: ErrorReporter, fn, fn_validate, valid_modules, timeout_execution=1, runs=10000):
