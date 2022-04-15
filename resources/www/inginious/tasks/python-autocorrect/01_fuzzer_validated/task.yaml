@@ -1,0 +1,40 @@
+accessible: true
+author: Pierre Ortegat
+categories: []
+contact_url: ''
+context: |+
+    This is a simpe, one function, python exercice
+
+environment_id: python3-correcteur
+environment_parameters:
+    limits:
+        time: '30'
+        hard_time: ''
+        memory: '100'
+    run_cmd: ''
+environment_type: docker
+evaluate: best
+file: ''
+groups: false
+input_random: '0'
+name: 1. Fuzzer with validation function
+network_grading: false
+order: 1
+problems:
+    exercice:
+        type: code
+        name: A simple python exercice
+        header: |
+            In this exercice, the goal is to create a function that will add two number and return the result.
+
+            Your code will be inserted in this function::
+
+                def adder(a: int, b: int):
+                    # Your code here
+        language: python3
+        default: ''
+stored_submissions: 0
+submission_limit:
+    amount: -1
+    period: -1
+weight: 1.0

@@ -4,7 +4,7 @@ from _ast import FunctionDef
 from correcteur.symbolic.context import Context
 
 # to_parse is pile of context that still needs to be recursively parsed
-to_parse = []
+magic_to_parse = []
 
 # conditions_list is a tuple containing each time two thing: a context name and the conditions needed to get there as an
 # array
@@ -39,7 +39,7 @@ def analyse_str(code, functionFocus):
 
 
 def __analyse_function_root__(function_definition):
-    global to_parse
+    global magic_to_parse
 
     to_parse.append(Context(function_definition, function_definition.name))
 
@@ -53,7 +53,7 @@ def __parse_element__():
     :return: None
     """
 
-    global to_parse
+    global magic_to_parse
     global conditions_list
 
     if not to_parse:
@@ -140,7 +140,7 @@ def __parse_element__():
 
 
 def __parse_element_fn__(context):
-    global to_parse
+    global magic_to_parse
 
     for elem in context.ast.body:
         context_child = Context(elem, type(elem).__name__, context)
@@ -148,7 +148,7 @@ def __parse_element_fn__(context):
 
 
 def __parse_element_if__(context):
-    global to_parse
+    global magic_to_parse
 
     # parsing the body
     for elem in context.ast.body:

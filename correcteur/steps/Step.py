@@ -6,7 +6,7 @@ from correcteur.steps.exceptions.IncompatibleRequestForConfig import Incompatibl
 
 class Step:
 
-    def __init__(self, actions_array_reference, actions_array_tested, nice_names=[], min_depth_local=1, max_depth_local=3):
+    def __init__(self, actions_array_tested, actions_array_reference=None, nice_names=[], min_depth_local=1, max_depth_local=3):
         """
         This object represents a set of operation that can be done at a given step
 
@@ -26,7 +26,7 @@ class Step:
         This function will return how many different action this step can execute
         :return:
         """
-        return len(self.actions_array_reference)
+        return len(self.actions_array_tested)
 
     def get_actions_list(self, actions):
         """
@@ -49,7 +49,8 @@ class Step:
             if action < 0 or action >= self.get_nbr_possible_actions():
                 raise IllegalAction
 
-            ref.append(self.actions_array_reference[action])
+            if self.actions_array_reference:
+                ref.append(self.actions_array_reference[action])
             test.append(self.actions_array_tested[action])
 
         return zip(ref, test)

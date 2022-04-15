@@ -11,6 +11,10 @@ magic_token = set()
 
 allowed_modules = []
 
+"""
+This token finder has a big problem: it's super version-dependant.
+"""
+
 
 def find_token(f, modules):
     """
@@ -59,7 +63,7 @@ def __get_fn__(fn_id):
 
 
 def __analyse_function_root__(elements):
-    global to_parse
+    global magic_to_parse
     global magic_token
 
     for element in elements:
@@ -72,7 +76,7 @@ def __analyse_function_root__(elements):
 
 
 def __parse_element__():
-    global to_parse
+    global magic_to_parse
 
     if not to_parse:
         raise ValueError("Nothing to parse")
@@ -169,14 +173,14 @@ def __parse_element__():
 
 
 def __parse_element_fn__(element):
-    global to_parse
+    global magic_to_parse
 
     for elem in element.body:
         to_parse.append(elem)
 
 
 def __parse_element_if__(element):
-    global to_parse
+    global magic_to_parse
 
     to_parse.append(element.test)
 
@@ -190,7 +194,7 @@ def __parse_element_if__(element):
 
 
 def __parse_element_match__(current):
-    global to_parse
+    global magic_to_parse
 
     to_parse.append(current.subject)
     for case in current.cases:
@@ -206,13 +210,13 @@ def __parse_element_match__(current):
 
 
 def __parse_element_return__(current):
-    global to_parse
+    global magic_to_parse
 
     to_parse.append(current.value)
 
 
 def __parse_element_try__(element):
-    global to_parse
+    global magic_to_parse
 
     for elem in element.body:
         to_parse.append(elem)
@@ -225,27 +229,27 @@ def __parse_element_try__(element):
 
 
 def __parse_element_except__(element):
-    global to_parse
+    global magic_to_parse
 
     for elem in element.body:
         to_parse.append(elem)
 
 
 def __parse_element_delete__(element):
-    global to_parse
+    global magic_to_parse
 
     for elem in element.targets:
         to_parse.append(elem)
 
 
 def __parse_element_assign__(element):
-    global to_parse
+    global magic_to_parse
 
     to_parse.append(element.value)
 
 
 def __parse_element_ann_assign__(element):
-    global to_parse
+    global magic_to_parse
 
     to_parse.append(element.value)
     to_parse.append(element.target)
@@ -253,7 +257,7 @@ def __parse_element_ann_assign__(element):
 
 
 def __parse_element_aug_assign__(element):
-    global to_parse
+    global magic_to_parse
 
     to_parse.append(element.value)
 
@@ -261,20 +265,20 @@ def __parse_element_aug_assign__(element):
 
 
 def __parse_element_expr__(element):
-    global to_parse
+    global magic_to_parse
 
     to_parse.append(element.value)
 
 
 def __parse_element_module__(element):
-    global to_parse
+    global magic_to_parse
 
     for elem in element.body:
         to_parse.append(elem)
 
 
 def __parse_element_call__(element):
-    global to_parse
+    global magic_to_parse
 
     for arg in element.args:
         to_parse.append(arg)
@@ -290,7 +294,7 @@ def __parse_element_call__(element):
 
 
 def __parse_element_lambda__(element):
-    global to_parse
+    global magic_to_parse
 
     to_parse.append(element.body)
     to_parse.append(element.args)
@@ -303,7 +307,7 @@ def __parse_element_constant__(element):
 
 
 def __parse_element_compare__(element):
-    global to_parse
+    global magic_to_parse
 
     for elem in element.comparators:
         to_parse.append(elem)
@@ -314,7 +318,7 @@ def __parse_element_compare__(element):
 
 
 def __parse_element_binop__(current):
-    global to_parse
+    global magic_to_parse
 
     to_parse.append(current.left)
     to_parse.append(current.right)
@@ -322,7 +326,7 @@ def __parse_element_binop__(current):
 
 
 def __parse_element_subscript__(current):
-    global to_parse
+    global magic_to_parse
 
     to_parse.append(current.slice)
     to_parse.append(current.value)

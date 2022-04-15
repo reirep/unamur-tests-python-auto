@@ -10,10 +10,11 @@ from correcteur.fuzzing.fuzzer import Fuzzer
 from correcteur.fuzzing.input.bool import Bool
 from correcteur.fuzzing.input.int import Int
 from correcteur.fuzzing.input.str import Str
-from correcteur.fuzzing.token.magic_token_finder import find_token
+from correcteur.fuzzing.token.universal_magic_token_finder import TokenFinder
 
 
-def fuzz_explicit_arguments(reporter: ErrorReporter, fn, fn_validate, inputs, valid_modules, timeout_execution=1, runs=10000):
+def fuzz_explicit_arguments(reporter: ErrorReporter, fn, fn_validate, inputs, valid_modules, timeout_execution=1,
+                            runs=10000, stop_on_first_error=True):
     """
     :param valid_modules: the list of modules that will be recursively parsed for magic tokens
     :param reporter: the error reporter that is going to be used to bring back up the errors
@@ -27,15 +28,17 @@ def fuzz_explicit_arguments(reporter: ErrorReporter, fn, fn_validate, inputs, va
     """
 
     # find all the magic token and add them to the base inputs
-    candidates = find_token(fn, valid_modules)
-    for candidate in find_token(fn_validate, valid_modules):
-        candidates.add(candidate)
+    parser = TokenFinder(valid_modules)
+
+    parser.find_tokens(fn)
+    if fn_validate:
+        parser.find_tokens(fn_validate)
 
     for input_type in inputs:
-        input_type.integrate_by_type(candidates)
+        input_type.integrate_by_type(parser.get_tokens())
 
     # create the runner with the function given and start it
-    r = Fuzzer(fn, fn_validate, inputs, runs, timeout_execution)
+    r = Fuzzer(fn, fn_validate, inputs, runs, timeout_execution, stop_on_first_error)
     r.run()
     input_fail = r.get_errors_seeds()
 

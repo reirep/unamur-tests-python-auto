@@ -115,7 +115,7 @@ All the challenge will be in determining the domain of the input
 
 - [x] combiner add nice_name
 
-- [ ] combiner add controlled entropy sources
+- [ ] make a simplified interface
 
 - [ ] add a stop after one fail option to the fuzzer
 
@@ -129,7 +129,7 @@ All the challenge will be in determining the domain of the input
 
 - [ ] add a global and per-run timeout
 
-- [ ] make a simplified interface
+- [ ] combiner add controlled entropy sources
 
 - [ ] combine the fuzzer and the combination of steps
 

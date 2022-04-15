@@ -5,7 +5,7 @@
 
 
 # Press the green button in the gutter to run the script.
-from resources.code_bidon import bidon, bidon_validate, bidon_deux, call_fn, bidon_vil
+from resources.code_bidon import bidon, bidon_validate, bidon_deux, call_fn, bidon_vil, bidon_adder
 from correcteur.feedback.errorRepporter import ErrorReporter
 from correcteur.feedback.textRepporter import TestRepporter
 from correcteur.fuzzing.fuzz import fuzz_explicit_arguments, fuzz
@@ -20,7 +20,7 @@ from correcteur.symbolic.symbolic import analyse_file
 def step_analyse(reporter: ErrorReporter):
     runner = StepRunner(stop_on_first_error=True)
     runner.add_step(Step([lambda: 0], [lambda: 0]))
-    runner.add_step(Step([lambda: 0, lambda: 0], [lambda: 0, lambda: 1/0]))
+    runner.add_step(Step([lambda: 0, lambda: 1/0], [lambda: 0, lambda: 0]))
     runner.add_step(Step([lambda: 0], [lambda: 0]))
 
     runner.compare_codes(reporter)
@@ -37,7 +37,11 @@ def fuzz_it(reporter: ErrorReporter, modu: [str]):
 
 
 def blind_fuzz(reporter: ErrorReporter, modu: [str]):
-    fuzz(reporter, bidon_vil, bidon_validate, modu, runs=1000)
+    fuzz(reporter, bidon_adder, None, modu, runs=1000)
+
+
+def blind_fuzz_noref(reporter: ErrorReporter, modu: [str]):
+    fuzz(reporter, bidon_adder, bidon_validate, modu, runs=1000)
 
 
 def token_finder(fn, modu):
@@ -51,7 +55,7 @@ if __name__ == '__main__':
     reporter = TestRepporter()
     valid_modules = ["resources.code_bidon"]
 
-    blind_fuzz(reporter, valid_modules)
+    blind_fuzz_noref(reporter, valid_modules)
 
     #token_finder(call_fn, valid_modules)
 

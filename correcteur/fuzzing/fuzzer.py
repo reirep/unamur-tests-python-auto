@@ -44,12 +44,13 @@ def __convert_array_to_seeds__(arrays):
 
 
 class Fuzzer:
-    def __init__(self, fn, fn_validate, inputs, max_runs, timeout_execution):
+    def __init__(self, fn, fn_validate, inputs, max_runs, timeout_execution, stop_on_first_error):
         self.fn = fn
         self.fn_validate = fn_validate
         self.inputs = inputs
         self.timeout_execution = timeout_execution
         self.max_runs = max_runs
+        self.stop_on_first_error = stop_on_first_error
 
         self.runs = 0
         self.seeds = __convert_array_to_seeds__(__create_base_seeds__(inputs))
@@ -66,8 +67,8 @@ class Fuzzer:
         for seed in self.seeds:
             self.run_once(seed)
             self.runs += 1
-
-        # self.seeds.sort(reverse=True, key=lambda s: s.get_score())
+            if self.stop_on_first_error and seed.is_failed():
+                return
 
         # continue to run for as long there is execution time left by mutating the top seeds
         while self.runs <= self.max_runs:
@@ -91,6 +92,9 @@ class Fuzzer:
             new_seed = Seed(new_values)
 
             self.run_once(new_seed)
+
+            if self.stop_on_first_error and new_seed.is_failed():
+                return
 
             # insert it in the bunch of seeds we have
 

@@ -138,37 +138,41 @@ class StepRunner:
                     test_return = None
                     test_except = None
 
-                    try:
-                        ref_return = action[0]()
-                    except Exception as e:
-                        ref_except = e
+                    if action[0]:
+                        try:
+                            ref_return = action[0]()
+                        except Exception as e:
+                            ref_except = e
 
                     try:
                         test_return = action[1]()
                     except Exception as e:
                         test_except = e
 
-                    if type(ref_except).__name__ != type(test_except).__name__:
-                        if isinstance(test_except, Exception):
-                            reporter.add_error(ErrorLog("combination runner", test_except,
-                                                        "the tested code broke (appels: {})"
-                                                        .format(self.__actions_to_nice_name__(actions))))
-                        elif isinstance(ref_except, Exception):
-                            reporter.add_error(ErrorLog("combination runner", ref_except,
-                                                        "the tested code did not raise an error when the ref code did (appels: {})"
-                                                        .format(self.__actions_to_nice_name__(actions))))
-                        if self.stop_on_first_error:
-                            return
-                        else:
-                            continue
+                    if action[0]:
+                        if type(ref_except).__name__ != type(test_except).__name__:
+                            if isinstance(test_except, Exception):
+                                reporter.add_error(ErrorLog("combination runner", test_except,
+                                                            "the tested code broke (appels: {})".format(
+                                                                self.__actions_to_nice_name__(actions))))
+                            elif isinstance(ref_except, Exception):
+                                reporter.add_error(ErrorLog("combination runner", ref_except,
+                                                            "the tested code did not raise an error when the ref code did (appels: {})".format(
+                                                                self.__actions_to_nice_name__(actions))))
+                            if self.stop_on_first_error:
+                                return
+                            else:
+                                continue
 
-                    if ref_return != test_return:
-                        reporter.add_error(ErrorLog("combination runner",
-                                                    None,
-                                                    "the return of the reference code and the tested code differ (ref: {} - test: {}) (appels: {})"
-                                                    .format(ref_return, test_return,
-                                                            self.__actions_to_nice_name__(actions))
-                                                    )
-                                           )
-                        if self.stop_on_first_error:
-                            return
+                        if ref_return != test_return:
+                            reporter.add_error(ErrorLog("combination runner",
+                                                        None,
+                                                        "the return of the reference code and the tested code differ (ref: {} - test: {}) (appels: {})".format(
+                                                            ref_return, test_return,
+                                                            self.__actions_to_nice_name__(actions))))
+                            if self.stop_on_first_error:
+                                return
+                    else:
+                        if test_except:
+                            reporter.add_error(
+                                ErrorLog("combination runner", test_except, "the tested code did throw an error"))

@@ -57,5 +57,9 @@ def call_fn(a, b):
     bidon_deux(a, b)
 
 
-def bidon_validate(a):
-    return True
+def bidon_adder(a: int, b: int):
+    return a + b
+
+
+def bidon_validate(a, b, c):
+    return a + b == c

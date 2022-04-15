@@ -27,3 +27,6 @@ class Seed:
 
     def get_values(self):
         return copy.deepcopy(self.values)
+
+    def is_failed(self) -> bool:
+        return self.result == Result.FAIL or self.result == Result.TIMEOUT

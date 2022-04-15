@@ -12,7 +12,7 @@ class Int(Input):
             additional_special = []
         self.min = min_val
         self.max = max_val
-        self.specials = [0, self.min, self.max]
+        self.specials = [0, -1, 1]
         self.mutation_range = mutation_range
         if additional_special:
             for additional in additional_special:

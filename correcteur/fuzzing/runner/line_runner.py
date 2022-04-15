@@ -53,11 +53,15 @@ class LineRunner(Runner):
                 res = self.fn(*self.args)
             self.coverage = len(cov.coverage())
 
-            if self.fn_validate(*self.args, res):
-                self.result = Result.PASS
+            if self.fn_validate:
+                if self.fn_validate(*self.args, res):
+                    self.result = Result.PASS
+                else:
+                    self.result = Result.FAIL
+                    self.error = Exception("the given output is wrong")
             else:
-                self.result = Result.FAIL
-                self.error = Exception("the given output was not valid")
+                self.result = Result.PASS
+
         except TimeoutException:
             self.result = Result.TIMEOUT
             self.coverage = 0

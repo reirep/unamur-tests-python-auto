@@ -8,31 +8,6 @@ from correcteur.steps.Step import Step
 sys.path.append('./student')
 
 import student_code
-
-# Quick'n'dirty ref code
-ref_list = None
-
-
-def init():
-    global ref_list
-    ref_list = []
-
-
-def add(elem):
-    global ref_list
-    ref_list.append(elem)
-
-
-def remove():
-    global ref_list
-    ref_list.pop()
-
-
-def last():
-    global ref_list
-    return ref_list[-1]
-
-
 # Run the fuzzer
 
 reporter = TestRepporter()
@@ -40,11 +15,9 @@ reporter = TestRepporter()
 runner = StepRunner(stop_on_first_error=True)
 runner.add_step(Step(
     [
-        init
-    ],
-    [
         student_code.init
     ],
+    None,
     max_depth_local=1,
     nice_names=[
         "init"
@@ -52,15 +25,11 @@ runner.add_step(Step(
 
 runner.add_step(Step(
     [
-        lambda: add(6),
-        remove,
-        last
-    ],
-    [
         lambda: student_code.add(6),
         student_code.remove,
         student_code.last
     ],
+    None,
     max_depth_local=10,
     nice_names=[
         "add",

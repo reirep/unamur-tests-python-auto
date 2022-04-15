@@ -17,9 +17,9 @@ evaluate: best
 file: ''
 groups: false
 input_random: '0'
-name: 1. Simple fuzzer
+name: 2. Fuzzer alone
 network_grading: false
-order: 5
+order: 2
 problems:
     exercice:
         type: code

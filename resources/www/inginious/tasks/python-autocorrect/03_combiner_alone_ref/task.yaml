@@ -23,9 +23,9 @@ evaluate: best
 file: ''
 groups: false
 input_random: '0'
-name: 2. Combiner alone with reference code
+name: 3. Combiner with reference code
 network_grading: false
-order: 5
+order: 3
 problems:
     init:
         type: code

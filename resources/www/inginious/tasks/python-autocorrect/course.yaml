@@ -12,7 +12,7 @@ registration: true
 registration_password: null
 registration_ac: null
 registration_ac_list:
-- '  '
+- '    '
 is_lti: false
 lti_keys: {}
 lti_send_back_grade: false
@@ -23,8 +23,10 @@ dispenser_data:
     id: list_of_exercises
     rank: 0
     tasks_list:
-        01_simple_fuzzer: 0
-        02_combiner_alone_ref: 1
+        01_fuzzer_validated: 0
+        02_fuzzer: 1
+        03_combiner_alone_ref: 2
+        04_combiner: 3
     title: List of exercises
 lti_url: ''
 tags:
