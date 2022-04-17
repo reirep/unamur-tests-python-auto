@@ -1,6 +1,7 @@
 import ast
 import inspect
 import textwrap
+import sys
 
 
 class TokenFinder:

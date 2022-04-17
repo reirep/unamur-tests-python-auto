@@ -37,11 +37,11 @@ def fuzz_it(reporter: ErrorReporter, modu: [str]):
 
 
 def blind_fuzz(reporter: ErrorReporter, modu: [str]):
-    fuzz(reporter, bidon_adder, None, modu, runs=1000)
+    fuzz(reporter, bidon_adder, bidon_validate, modu, runs=1000)
 
 
 def blind_fuzz_noref(reporter: ErrorReporter, modu: [str]):
-    fuzz(reporter, bidon_adder, bidon_validate, modu, runs=1000)
+    fuzz(reporter, bidon_adder, None, modu, runs=1000)
 
 
 def token_finder(fn, modu):

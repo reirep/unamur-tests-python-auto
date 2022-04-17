@@ -15,6 +15,9 @@ class Bool(Input):
     def mutate(self, value):
         pass
 
+    def is_valid_type(self, candidate):
+        return isinstance(candidate, bool)
+
     def integrate_by_type(self, candidates):
         pass
 

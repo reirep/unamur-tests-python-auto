@@ -26,9 +26,9 @@ def __create_base_seeds__(inputs):
         updated_res = []
 
         for line in res:
-            for value in new_values:
+            for special_case in new_values:
                 new_line = copy.deepcopy(line)
-                new_line.append(value)
+                new_line.append(special_case)
                 updated_res.append(new_line)
 
         res = updated_res

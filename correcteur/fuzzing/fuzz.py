@@ -2,14 +2,14 @@ import ast
 import inspect
 import textwrap
 
+import astunparse
+
 from correcteur.feedback.ErrorLog import ErrorLog
 from correcteur.feedback.errorRepporter import ErrorReporter
 from correcteur.fuzzing.exceptions.FunctionNotAnotatedError import FunctionNotAnotatedError
 from correcteur.fuzzing.exceptions.SourceReversingError import SourceReversingError
 from correcteur.fuzzing.fuzzer import Fuzzer
-from correcteur.fuzzing.input.bool import Bool
-from correcteur.fuzzing.input.int import Int
-from correcteur.fuzzing.input.str import Str
+from correcteur.fuzzing.input.gen_from_str import get_type_from_str
 from correcteur.fuzzing.token.universal_magic_token_finder import TokenFinder
 
 
@@ -47,11 +47,11 @@ def fuzz_explicit_arguments(reporter: ErrorReporter, fn, fn_validate, inputs, va
 
 
 def fuzz(reporter: ErrorReporter, fn, fn_validate, valid_modules, timeout_execution=1, runs=10000):
-    types = __get_annoted_type__(fn)
+    types = __get_annotated_type__(fn)
     return fuzz_explicit_arguments(reporter, fn, fn_validate, types, valid_modules, timeout_execution, runs)
 
 
-def __get_annoted_type__(fn):
+def __get_annotated_type__(fn):
     src = None
     try:
         src = inspect.getsource(fn)
@@ -64,16 +64,7 @@ def __get_annoted_type__(fn):
         if not arg.annotation:
             raise FunctionNotAnotatedError()
 
-        res.append(__get_type_from_str(arg.annotation.id))
+        type_str = astunparse.unparse(arg).split(':')[1].strip()
+        res.append(get_type_from_str(type_str))
 
     return res
-
-
-def __get_type_from_str(name):
-    if name == "int":
-        return Int()
-    if name == "bool":
-        return Bool()
-    if name == "str":
-        return Str()
-    raise NotImplementedError()

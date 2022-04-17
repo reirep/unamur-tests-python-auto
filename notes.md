@@ -107,25 +107,25 @@ All the challenge will be in determining the domain of the input
 
 - [x] add args detection to the fuzzer (annotation)
 
-- [ ] create a basic inginous integration [link](https://docs.inginious.org/en/v0.7/admin_doc/install_doc/installation.html#installing-inginious)
+- [x] create a basic inginous integration [link](https://docs.inginious.org/en/v0.7/admin_doc/install_doc/installation.html#installing-inginious)
   - [x] of the fuzzer with a checker function
-  - [ ] of the fuzzer without reference code
+  - [x] of the fuzzer without reference code
   - [x] of the combiner with some reference code
-  - [ ] of the combiner without reference code
+  - [x] of the combiner without reference code
 
 - [x] combiner add nice_name
 
-- [ ] make a simplified interface
-
-- [ ] add a stop after one fail option to the fuzzer
+- [x] add a stop after one fail option to the fuzzer
 
 - [x] combiner compare the output also
 
-- [ ] combiner allow no ref fn mode
+- [x] combiner allow no ref fn mode
 
-- [ ] combiner add allowed errors
+- [x] combiner add allowed errors
 
-- [ ] combiner add option to only report the exception of the tested code
+- [ ] make a simplified interface
+
+- [ ] combiner add option to only report the exception thrown by the tested code
 
 - [ ] add a global and per-run timeout
 
@@ -133,16 +133,16 @@ All the challenge will be in determining the domain of the input
 
 - [ ] combine the fuzzer and the combination of steps
 
-- [ ] edit the runner in a way that allow to just pass a function (moar syntaxic sugar :D )
+- [x] edit the runner in a way that allow to just pass a function (moar syntaxic sugar :D )
 
 - [ ] add time limit
 
-- ajouter un fuzzer qui teste par lignes "hot" et "cold" (aka, si une seed passe sur une ligne qu'on n'execute
+- [ ] ajouter un fuzzer qui teste par lignes "hot" et "cold" (aka, si une seed passe sur une ligne qu'on n'execute
   jamais, elle ramassera pas mal de points)
 
-- all the missing testing type
+- [ ] all the missing testing type
 
-- add args detection to the fuzzer (dynamic detection)
+- [ ] add args detection to the fuzzer (dynamic detection)
 
 - fuzzy step testing
     - add a mex global depth

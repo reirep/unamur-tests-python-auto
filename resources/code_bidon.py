@@ -1,3 +1,5 @@
+from typing import List
+
 
 def lol(a):
     if 666 == a:
@@ -57,8 +59,10 @@ def call_fn(a, b):
     bidon_deux(a, b)
 
 
-def bidon_adder(a: int, b: int):
-    return a + b
+def bidon_adder(a: List[int], b: int):
+    if len(a) >= 1:
+        return 1/b
+    return b + 1
 
 
 def bidon_validate(a, b, c):

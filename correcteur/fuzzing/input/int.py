@@ -27,6 +27,9 @@ class Int(Input):
     def get_random(self):
         return random.randint(-sys.maxsize, sys.maxsize)
 
+    def is_valid_type(self, candidate):
+        return isinstance(candidate, int)
+
     def integrate_by_type(self, candidates):
         for candidate in candidates:
             if isinstance(candidate, int):

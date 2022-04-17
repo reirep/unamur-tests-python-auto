@@ -33,3 +33,10 @@ class Input:
         :return: a new , mutated by a bit, value
         """
         raise NotImplementedError
+
+    def is_valid_type(self, candidate):
+        """
+        :param candidate: the python object that is going to be analysed
+        :return: True if the given object match the type of this one
+        """
+        raise NotImplementedError
