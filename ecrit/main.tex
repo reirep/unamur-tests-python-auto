@@ -1,0 +1,241 @@
+\documentclass[a4paper]{report}
+% Package definition
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage{fancybox}
+
+% added package
+\usepackage[utf8]{inputenc}
+\usepackage[cyr]{aeguill}
+\usepackage{xspace}
+\usepackage[english,french]{babel}
+\usepackage{url}
+\usepackage[nottoc,numbib]{tocbibind}
+\usepackage{hyperref}
+
+
+% hacks
+\let\urlorig\url
+\renewcommand{\url}[1]{%
+   \begin{otherlanguage}{english}\urlorig{#1}\end{otherlanguage}%
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%% VARIABLE TO DEFINE %%%%%
+\newcommand{\titreMemoire}{Génération de tests unitaires pour simples programmes python}
+\newcommand{\auteurMemoire}{Ortegat Pierre}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\makeindex
+
+\begin{document}
+\thispagestyle{empty}
+
+\begin{center}
+\textsc{Universit\'e de Namur}\\
+Facult\'e d'informatique\\
+Ann\'ee acad\'emique 2021--2022
+\end{center}
+\vspace{1.3cm}
+\hspace{1.4cm}
+\fbox{
+\begin{minipage}[c][5.4cm]{9.6cm}
+\large
+\begin{spacing}{1.2}
+\begin{center}
+\textbf{\titreMemoire}\\
+\vspace{1cm}
+\auteurMemoire
+\end{center}
+\end{spacing}
+\end{minipage}
+}
+\vspace{0.5cm}
+\begin{figure}[!h]
+~~~~~~~~\centering\includegraphics[scale=4.0]{img/unamur.png}
+\end{figure}
+
+\normalsize
+
+\vspace{0.5cm}
+\begin{table}[!h]
+\centering
+  \begin{tabular}{ r l }
+    Promoteur~: &  \rule{4cm}{0.1mm} {\small (Signature pour approbation du d\'ep\^ot - REE art. 40)}\\
+    ~\underline& Xavier Devroey \\\\
+    Co-promoteur~: & Benoît Vanderose\\
+  \end{tabular}
+\end{table}
+
+\vspace{0.5cm}
+\begin{center}
+M\'emoire pr\'esent\'e en vue de l'obtention du grade de\\
+Master en Sciences Informatiques.
+\end{center}
+
+\nocite{*}
+\chapter{Remerciements}
+
+
+\chapter{Résumé}
+
+\tableofcontents
+
+\chapter{Introduction}
+
+\chapter{État de l'art}
+
+% intro
+
+\section{Méthodes de test}
+
+%TODO Listing de tous les types de tests dispo et de ce qu'il vallent ; quel sont les avantages / drawbacks
+
+\subsection{A la main}
+
+Le style le plus classique
+
+Prends du temp
+
+biais de confirmation
+
+flackiness
+
+=> techniques automatiques utiles, cqfd
+
+\subsection{Fuzzing}
+
+Quand ca a été inventé, sigification: entrée random dans les progs \cite{Forrester2000}
+
+Ajdh: fort utilisé dans la sécu dès qu'il y a un user input \cite{Godefroid2020} (fait partie du Microsoft Security Development Lifecycle \cite{howard2006security})
+
+\subsubsection{Fuzzing en boite noire}
+
+Prendre tt le prob et donner à l'aveugle des inputs \cite{Forrester2000}
+
+Dépend critiquement d'un set de seed valides à la base si on veut etre efficace
+
+important aussi de limiter le bruit inutile et pas générer plein de shizer
+
+%TODO exemple of blackbox fuzzing
+
+\subsubsection{Fuzzing grammatical ou en boite grise}
+
+greybox fuzzer: \cite{fuzzingbook2022:GreyboxFuzzer}
+
+graybox grammar fuzzer: \cite{fuzzingbook2022:GreyboxGrammarFuzzer}
+
+classic grammar fuzzer:
+
+peach (intégré dans gitlab mtnt) \cite{peach}
+
+spike \cite{spike}
+
+sulley \cite{sulley}
+
+other grammar fuzzer: \cite{sutton2007fuzzing}
+
+g fuzzing pour trouver des failles de sécu dans les browser:  \cite{holler2012fuzzing}
+
+g fuzzing trouver bug complexes dans des compilateurs C  \cite{yang2011finding}
+
+g fuzzing pour trouver les bugs dans les proto réseaux \cite{aflnet}
+
+apprentissage auto gramaire : \cite{bastani2017synthesizing}
+
+tracer process pour créer gramaire automatiquement \cite{hoschele2017mining}
+
+
+limité par la grammaire en elle même, plus gros défaut
+
+%TODO exemple de greybox fuzzing : fuzzing par ligne ? 
+
+\subsubsection{Fuzzing en boite blanche et exécution symbolique}
+
+parser le prog, le faire tourner et tenter de résoudre les conditions pour toucher toutes les branches avec un solveur.
+
+Plus efficace pour un covering complet et pour taper sur toutes les branches et chopper les bugs de meeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
+
+
+dynamic execution testing: SAGE \cite{godefroid2008automated} (symbolic execution x86 level avec opti pour enorme stack traces \cite{Godefroid2020} ) 
+
+qui étends le travail d'autre sur le génération de tests auto \cite{Godefroid2020} \cite{cadar2005execution} \cite{godefroid2005dart}
+
+utilisé en prod partout, plus de 100 année machines dans les dents
+"largest computational usage ever for any Satisfiability-Modulo-Theories (SMT) solver" d'après les auteurs de z3 \cite{moura2008z3}
+
+\subsection{Property based}
+
+
+
+\cite{Fink1997}
+
+\cite{Paraskevopoulou2015}
+
+\cite{Papadakis2011}
+
+
+\subsection{Fault injection}
+
+
+
+
+\subsection{Utilisation conjointe}
+
+NOTE: all can be combined to try to be more efficient !! \cite{Godefroid2020} => Hybrid fuzzing
+
+plusieurs approches en meme temps: Portfolio approaches.
+
+\chapter{Développement}
+
+\section{Sélection de stratégie de tests}
+
+% pourquoi est ce que les tests sélectionnées ont été sélectionés
+
+\subsection{Innovations}
+
+% combinaison
+
+% "hot" lines
+
+
+\section{Compromis}
+
+% certains détail d'impl qui sont utiles à savoir
+
+\subsection{Combinaisons de techniques}
+% fuzzing into combiner
+
+\subsection{Complexité spatiale vs temporelle}
+% space complexity vs time complexity
+
+\section{Efficacité \& limitations}
+
+\subsection{Résolution des branches}
+
+\subsubsection{Le problème d'arrêt}
+
+\subsection{Complexité temporelle}
+
+\subsection{Valeurs par défaut}
+
+\section{Intégration}
+
+\subsection{Interface unifiée}
+
+\subsection{Gestion des erreurs}
+
+\subsection{Intégration dans Inginious}
+
+
+
+\chapter{Conclusion}
+
+\bibliographystyle{plain}
+\bibliography{ref} 
+
+\chapter{Annexes}
+
+
+
+\end{document}

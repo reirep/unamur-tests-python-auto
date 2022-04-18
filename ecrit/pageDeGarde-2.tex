@@ -1,0 +1,56 @@
+\documentclass[a4paper]{book}
+% Package definition
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage{fancybox}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%% VARIABLE TO DEFINE %%%%%
+\newcommand{\titreMemoire}{Mon Titre} % Titre de mon mémoire
+\newcommand{\auteurMemoire}{Auteur1\\Auteur2} % Auteur(s)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\thispagestyle{empty}
+
+\begin{center}
+\textsc{Universit\'e de Namur}\\
+Facult\'e d'informatique\\
+Ann\'ee acad\'emique 20XX--20YY
+\end{center}
+\vspace{1.3cm}
+\hspace{1.4cm}
+\fbox{
+\begin{minipage}[c][5.4cm]{9.6cm}
+\large
+\begin{spacing}{1.2}
+\begin{center}
+\textbf{\titreMemoire}\\
+\vspace{1cm}
+\auteurMemoire
+\end{center}
+\end{spacing}
+\end{minipage}
+}
+\vspace{0.5cm}
+\begin{figure}[!h]
+~~~~~~~~\centering\includegraphics[scale=4.0]{img/unamur.png}
+\end{figure}
+
+\normalsize
+
+\vspace{0.5cm}
+\begin{table}[!h]
+\centering
+  \begin{tabular}{ r l }
+    Ma\^itre de stage~: & MonMaitredeStage\\\\\\
+    Promoteur~: &  \rule{4cm}{0.1mm} {\small (Signature pour approbation du d\'ep\^ot - REE art. 40)}\\
+    ~\underline& MonPromoteur \\\\
+    Co-promoteur~: & MonEventuelCoPromoteur \\
+  \end{tabular}
+\end{table}
+
+\vspace{0.5cm}
+\begin{center}
+M\'emoire pr\'esent\'e en vue de l'obtention du grade de\\
+Master en Sciences Informatiques.
+\end{center}
+\end{document}
