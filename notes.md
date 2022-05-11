@@ -15,10 +15,10 @@ For the function themselves:
 For the parameters
 
 - register all the parameters
-    - set domain (optional)
-    - set additional corner case (default ste for each primitive type)
+  - set domain (optional)
+  - set additional corner case (default ste for each primitive type)
 - auto-detect the parameter list and detect the domain and the basic corner case.
-    - some corner case could be extended using fuzzing, symbolic execution, etc
+  - some corner case could be extended using fuzzing, symbolic execution, etc
 
 ## Techniques of testing
 
@@ -34,7 +34,7 @@ For the parameters
 
 - Fault injection (variant of fuzzing)
 - Symbolic execution
-    - Concolic testing (degraded symbolic execution)
+  - Concolic testing (degraded symbolic execution)
 
 ## Done
 
@@ -98,6 +98,7 @@ All the challenge will be in determining the domain of the input
 ## TODO
 
 - static parsing of the code to find magic token
+  
   - [x] done in magic_token_finder, now integrate that into the fuzzer 
   - [x] resolve the method to follow them
   - [x] manage module scoping for the function resolution
@@ -108,6 +109,7 @@ All the challenge will be in determining the domain of the input
 - [x] add args detection to the fuzzer (annotation)
 
 - [x] create a basic inginous integration [link](https://docs.inginious.org/en/v0.7/admin_doc/install_doc/installation.html#installing-inginious)
+  
   - [x] of the fuzzer with a checker function
   - [x] of the fuzzer without reference code
   - [x] of the combiner with some reference code
@@ -122,6 +124,10 @@ All the challenge will be in determining the domain of the input
 - [x] combiner allow no ref fn mode
 
 - [x] combiner add allowed errors
+
+- [ ] benchmark that spit out "reasonable defaults" ?
+
+- [ ] dictionary type
 
 - [ ] make a simplified interface
 
@@ -145,17 +151,30 @@ All the challenge will be in determining the domain of the input
 - [ ] add args detection to the fuzzer (dynamic detection)
 
 - fuzzy step testing
-    - add a mex global depth
-    - add the support for parameter in the steps searching
-    - add a form of A* optimization / alpha beta pruning
-    - 
+  
+  - add a mex global depth
+  - add the support for parameter in the steps searching
+  - add a form of A* optimization / alpha beta pruning
+  - 
+
 - state comparer (compare les embriquement de classes entre le code exemple et le code élève)
 
 - checkout comment créer des profils de tests pour que une entrée qui aie cassé le code d'un étudiant soie restée sans
   devoir la rechercher avant de relancer le process
 
 - checkout fault injection
+
 - checkout partition testing
+
 - checkout property base testing
+
 - checkout concolic testing
+
 - checkout symbolic execution
+
+add to ecrit:
+
+- ajouter a l'"etat de l'art le contexte de l'education des tests et des pl auto (aka inginious) pk c'est intéressant
+- 5.1 & 5.2 => 5. problématiques
+- 5.3 & 5.4 => 6. contributions
+- discussion du types d'erreur identifiable avec les différents type d'executions  

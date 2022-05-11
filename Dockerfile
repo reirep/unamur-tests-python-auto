@@ -1,5 +1,5 @@
 FROM ingi/inginious-c-python3
-LABEL   org.inginious.grading.name="python3-correcteur"
+LABEL org.inginious.grading.name="python3-correcteur"
 
 
 RUN pip3 install astunparse

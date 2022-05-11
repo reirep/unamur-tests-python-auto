@@ -60,7 +60,6 @@ class List(Input):
         if len(value) > 0 and bool(random.getrandbits(1)):
             value.pop(__get_rand_index__(value))
 
-
     def __check_content__(self, array):
         if not array:
             return False
