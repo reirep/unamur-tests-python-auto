@@ -128,11 +128,11 @@ Je tiens également à remercier l'entreprise dont je fais actuellement partie, 
 \chapter*{Résumé}
 
 L'application de tests automatiques au code soumis par les étudiants sur une plateforme de correction automatique est un outil utile pour le corps enseignant.
-Il permet de fournir un meilleur retour, sur plus d'exercices, créés plus rapidement.
-Des méthodes des tests automatiques sont analysées et une sélection est faite de ceux qui, de par leurs caractéristiques, sont les plus intéressant dans le contexte de la correction automatique des codes d'étudiants.
-Ces méthodes retenues sont le fuzzing en boite grise et le test de combinaisons d'appels sur une structure donnée.
-L'efficacité de celles-ci est discutée et une application pratique de celles-ci est développée via une librairie de test qui s'intègre dans la plateforme de correction automatique Inginious.
-Les limitations sont analysées et un protocole de test des gains apporté par celle-ci est ensuite proposé pour pouvoir quantifier les gains apportés lors d'une expérience pratique.
+Il permet de fournir de meilleurs retour, sur plus d'exercices, créés plus rapidement.
+Des méthodes des tests automatiques sont analysées et une sélection est faite sur ceux qui, de par leurs caractéristiques, sont les plus intéressant dans le contexte de la correction automatique des codes d'étudiants.
+Les méthodes retenues sont le fuzzing en boite grise et le test de combinaisons d'appels sur une structure donnée.
+L'efficacité de celles-ci est discuté et une application pratique est développée sous la forme d'une librairie de test qui s'intègre dans la plateforme de correction automatique Inginious.
+Les limitations sont analysées et un protocole de test des modifications apportées par celle-ci est ensuite proposé pour pouvoir quantifier les gains apportés via une expérience pratique.
 
 
 
@@ -149,10 +149,10 @@ Pour ce faire, ce document est découpé en trois parties.
 Dans un premier temps, toutes les techniques des tests automatiques seront explorées; avec leurs défauts et avantages mis en avant.
 Une sélection sera fait parmi celles-là.
 Ensuite, une analyse sera faite de certains points pertinents à l'application desdites techniques de tests.
-Enfin, un commentaire sera fait sur l'implémentation de ceux-ci et un protocole de test pour vérifier l'efficacité de ce qui a été créé en pratique.
+Enfin, un commentaire sera fait sur leur implémentation et un protocole de test pour vérifier l'efficacité de ce qui a été créé en pratique.
 
 Une attention toute particulière à été gardée tout au long de l'analyse des techniques et de leurs conséquences pour que les résultats obtenus soient directement utilisables sur le terrain.
-Pour ce faire un libraire de test automatique implémentant la sélection a été créé et ajoutée à un runner Inginious.
+Pour ce faire un libraire de test automatique implémentant la sélection a été créé et intégrée à un runner Inginious.
 
 
 \chapter{État de l'art}
@@ -162,13 +162,13 @@ Pour ce faire un libraire de test automatique implémentant la sélection a ét�
 \section{Méthodes de test}
 Cet état de l'art couvre une série de méthode de test de composant logiciels, qu'il soient auto-contenus ou distribués.
 Tous ceux listés dans cet état de l'art ont été considérés pour être intégrés dans le travail décris après.
-Ils n'ont su être tous intégrés pour des raisons décrites plus loin.
+Ils n'ont été tous intégrés pour des raisons décrites plus loin.
 
 
 \subsection{Tests manuels}
 
 %Le style le plus classique et ancien
-Pour des raisons de complétude, il est intéressant d’inclure dans cette liste de méthodes et techniques de test la façon la plus ancienne qui existe: l’écriture et l’utilisation de tests unitaires manuels.
+Pour des raisons de complétude, il est intéressant d’inclure dans cette liste de méthodes et techniques de test la façon la plus ancienne qui existe: l’écriture et l’utilisation de tests unitaires.
 Ces tests, bien que plus ciblé et direct que les tests automatiques ne sont pas sans défauts.
 
 % Prends du temp
@@ -180,16 +180,16 @@ De par la nature humaine de leur création, ils ne seront pas toujours adaptés,
 Un autre problème récurrent rencontré lors de l'utilisation de tests unitaires écrits à la main est un problème de biais de confirmation.
 En effet, il n'est pas rare d'observer que les tests unitaires écrits soient juste une confirmation de ce que le développeur a écrit et non ce qui a été demandé comme fonctionnalité \cite{Calikli2014}.
 Ce biais de confirmation rend l'utilisation de ces tests unitaire inutile car la seule chose qu'ils vont confirmer est que l'implémentation du développeur initial est bien celle utilisée.
-Une méthode utilisée pour combattre ce phénomène est de faire du développement par le comportement (appelée BDD = Behavior Drive Developpement dans l'industrie) qui va consister à écrire les tests avant d'écrire le code et, idéalement, que ces tests initiaux soient écrits par quelqu'un d'extérieur au développeur de la fonctionnalité.
+Une méthode utilisée pour combattre ce phénomène est de faire du développement par le comportement (appelée BDD = Behavior Drive Developpement dans l'industrie) qui va consister à écrire les tests avant d'écrire le code et, idéalement, que ces tests initiaux soient écrits par quelqu'un d'autre que le développeur de la fonctionnalité.
 
 %flackiness \cite{Luo2014}
 Un autre problème classique récurent des tests unitaires écrits à la main est la “flackiness” ($\approx$ non fiabilité et instabilité).
 Ce problème diminue fortement l'efficacité des-dits tests, car ils ne permettent plus de s'appuyer dessus afin de garantir que le software fonctionne correctement.
-Des erreurs à la fréquence assimilable à de l'aléatoire, n'apportent aucune information pertinente supplémentaire \cite{Luo2014}.
+Des erreurs de tests à la fréquence assimilable à de l'aléatoire, n'apportent aucune information pertinente supplémentaire \cite{Luo2014}.
 
 
 %=> techniques automatiques utiles, cqfd
-Ces divers problèmes et défauts des tests unitaires écrits à la main ont mené au développement d’autres techniques dont le fuzzing qui va être décrit dans les sections suivantes.
+Ces divers problèmes et défauts des tests unitaires écrits à la main ont mené au développement d’autres techniques, dont le fuzzing, qui va être décrit dans la section suivante.
 
 \subsection{Fuzzing}
 
@@ -205,14 +205,15 @@ Avoir fuzzé une interface logicielle ne garantit pas que cette interface est sa
 \subsubsection{Fuzzing en boite noire}
 
 %Prendre tt le prob et donner à l'aveugle des inputs \cite{Forrester2000}
-Le fuzzing dit “en boite noire” est une des approches existante du fuzzing qui va considérer trois éléments lors de chaque test:
+Le fuzzing dit “en boite noire” est une des approches possile du fuzzing.
+Elle va considérer trois éléments lors de chaque test:
 \begin{itemize}
 \item Les entrées fournies au programme
 \item Les réponses données par le programme (\textit{toutes} les sorties et effets de bord du programme sont pris en compte; cela inclus les erreurs)
 \item Le programme en lui-même qui va être considéré comme une unité atomique, aucune observation ne sera faite sur l'état interne du programme.
 \end{itemize}
 Des entrées vont être générées à l'aveugle, fournies au programme et le résultat va être enregistré \cite{Forrester2000}.
-Si le résultat n'est pas satisfaisant, les entrées qui ont déclenché ce résultat vont être remontées pour qu'une correction puisse être effectuée.
+Si le résultat n'est pas satisfaisant, les entrées qui ont déclenché ce résultat vont être conservées et remontées pour qu'une correction puisse être effectuée.
 
 %Dépend critiquement d'un set de seed valides à la base si on veut être efficace
 Le principal  défaut de cette méthode de test est qu'elle est fortement dépendante de la qualité des entrées initialement fournies ou générées. 
@@ -227,27 +228,27 @@ Sachant que le microprocesseur le plus rapide de tous les temps, d'après le Gui
 $$\approx 8,6167 * 10^{3594} \text{ années}$$
 
 ce qui est, en pratique, infaisable et souligne l'importance d'avoir des entrées initiales pertinentes.
-Au travers de cet exemple, il est clair que le fuzzing en boite noire ne peut pas espérer tomber au hasard sur les cas problématique, il doit avoir des seeds déjà proches de ce qui pourrait causer des bugs.
+Au travers de cet exemple, il est clair que le fuzzing en boite noire ne peut pas espérer tomber au hasard sur tous les cas problématiques, il doit avoir des entrées déjà proches de ce qui pourrait causer des bugs.
 
 
 %important aussi de limiter le bruit inutile et pas générer plein de shizer
-Les seeds initiales, en plus d'être bien formée au début, doivent être modifiées de façon intelligente par rapport au problème.
-Soumettre à répétition des entrées complètement fausses ne servirait à rien: le programme le détectera et les ignorera rapidement ; ne testant que peu de celui-ci au passage \cite{Godefroid2020}.
+Les entrées initiales, en plus d'être bien formée au début, doivent être modifiées de façon intelligente par rapport au problème.
+Soumettre à répétition des entrées complètement fausses ne servirait à rien: le programme le détectera et les ignorera rapidement ; ne testant que peu de possibilités d'exécution \cite{Godefroid2020}.
 
 \subsubsection{Fuzzing grammatical et en boite grise}
 
 %greybox fuzzer: \cite{fuzzingbook2022:GreyboxFuzzer}
-Le fuzzing en boite grise ("greybox") est la même pratique que de le fuzzing en blackbox, à une différence près.
-Dans ce cas-ci, on va se servir d’indications puisées directement du programme testé pour orienter la recherche \cite{fuzzingbook2022:GreyboxFuzzer}.
+Le fuzzing en boite grise (aussi appelé fuzzing en "greybox") est la même pratique que de le fuzzing en blackbox, à une différence près.
+Dans ce cas-ci, on va se servir d’indications puisées directement dans le programme testé pour orienter la recherche \cite{fuzzingbook2022:GreyboxFuzzer}.
 
-Dans le cas de Python, un approche possible est de compter le nombre de lignes de codes qui ont été exécutées avec une entrée donnée.
+Dans le cas de Python, une des approches possible est de compter le nombre de lignes de codes qui ont été exécutées avec une entrée donnée.
 Plus une entrée a permis à un grand nombre de lignes d’être exécutés, plus celle-ci va être réutilisée et mutée rapidement.
 Les entrées quoi n'atteignent presque aucunes lignes verront leur utilisation être nettement diminué \cite{fuzzingbook2022:GreyboxFuzzer}.
 
 %greybox grammar fuzzer: \cite{fuzzingbook2022:GreyboxGrammarFuzzer}
-\paragraph{Le fuzzer en boite grise à grammaire} ajoute l'utilisation d'une grammaire pour former des entrées qui seront valides et, ainsi, explorer l'espace des entrées possibles plus efficacement en ignorant celles qui seront, dans tous les cas rejetées rapidement \cite{fuzzingbook2022:GreyboxGrammarFuzzer}.
-le défaut de cette approche est qu'elle ne teste que des entrées qui sont valides.
-La combiner avec une forme de mutation de seeds est, dans beaucoup de cas, intéressant et permettra d'avoir de meilleurs résultats.
+\paragraph{Le fuzzer en boite grise à grammaire} ajoute l'utilisation d'une grammaire pour former des entrées qui seront valides et, ainsi, explorer l'espace des entrées possibles plus efficacement en ignorant celles qui seront rejetées rapidement \cite{fuzzingbook2022:GreyboxGrammarFuzzer}.
+Le défaut de cette approche est qu'elle ne teste que des entrées qui sont valides.
+La combiner avec une forme de mutation d'entrées est, dans beaucoup de cas, intéressant et permettra d'avoir de meilleurs résultats.
 
 Parmis les outils de fuzzing en boite grise classique, on peut notamment citer \cite{sutton2007fuzzing}:
 \begin{itemize}
@@ -272,39 +273,41 @@ Cela ne sera pas systématiquement le cas mais faire attention à ce problème e
 
 %limité par la grammaire en elle même, plus gros défaut
 La limitation majeure de l'utilisation d'une grammaire pour générer des entrées valides est la grammaire en elle même.
-Par sa nature même elle est limitée à des entrées bien formées et ne peut pas tester les cas limites qui sont faux mais très proches d'un cas correct.
-Une autre limitation de cette technique héritée de la façon de fuzzer en boite noire est sa dépendance à un set de seeds initiales.
-Si elles ne sont pas représentatives et exhaustives des cas intéressants, le fuzzer n'aura que très peu de chance de tomber sur les cas problématiques.
+De par sa nature, elle est limitée à des entrées bien formées et ne peut pas tester les cas limites qui sont faux mais très proches d'un cas correct.
+Une autre limitation de cette technique héritée de la façon de fuzzer en boite noire est sa dépendance à un set d'entrées initiales.
+Si elles ne sont pas représentatives et exhaustives des cas intéressants ou problématiques, le fuzzer n'aura que très peu de chance de trouver les cas problématiques.
 
 \subsubsection{Fuzzing en boite blanche}
 
 %parser le prog, le faire tourner et tenter de résoudre les conditions pour toucher toutes les branches avec un solveur.
 Le fuzzing dit "en boite blanche" est une variante de fuzzing plus informée.
 Celle-ci va commencer comme du fuzzing en boite noire mais va, au fur et la mesure de l'exécution, récolter des information et condition nécessaire pour atteindre plus de branches d'exécution (idéalement toutes mais ce n'est pas toujours possible).
-Les conditions récoltées lors d'une exécution seront résolues par un solveur logique et les nouvelles entrées crée par cette résolution vont être utilisées pour la prochaine exécution du code testé.
-ce mélange d'exécution concrète et symbolique (via la résolution de contraintes) a donné le nom de "testing concolique" à cette méthode de test.
+Les conditions récoltées lors d'une exécution seront résolues par un solveur logique et les nouvelles entrées crées par cette résolution vont être utilisées pour les prochaines exécutions du code testé.
+Ce mélange d'exécution concrète et symbolique (via la résolution de contraintes) a donné le nom de "testing concolique" à cette méthode de test.
 %Plus efficace pour un covering complet et pour taper sur toutes les branches et chopper les bugs de meeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-Cette méthode de tests est particulièrement efficace pour aller chercher les cas particuliers et atteindre une couverture de code particulièrement élevée.
+Elle est particulièrement efficace pour aller chercher les cas particuliers et atteindre une couverture de code particulièrement élevée.
 
 %dynamic execution testing: SAGE \cite{godefroid2008automated} (symbolic execution x86 level avec opti pour enorme stack traces \cite{Godefroid2020} ) 
 Un exemple pratique de l'application de cette méthode est l'outil SAGE actuellement développé et maintenu par Microsoft\cite{godefroid2008automated}.
 Sage est un fuzzer qui teste en faisant de l'exécution symbolique x86 en boite blanche qui est optimisé pour gérer des stack trace énormes\cite{Godefroid2020}.
 
 Cet outil est utilisé dans une des étapes finales de release des produits Microsoft et, régulièrement, découvre ce  qui est appelé un "bug à millions".
-Les bugs à millions sont des bugs qui, s’ils passent en production, couteraient plus d'un million pour résoudre, patcher et re-déployer le code problématique\cite{Godefroid2012}.
+Les bugs à millions sont des bugs qui, s’ils passent en production, couteraient collectivement, aux utilisateurs finaux, plus d'un million pour résoudre, patcher et re-déployer le code problématique \cite{Godefroid2012}.
 
 %qui étend le travail d'autre sur la génération de tests auto \cite{Godefroid2020} \cite{cadar2005execution} \cite{godefroid2005dart}
-SAGE étends d'autres travaux déjà réalisés dans le domaine de l'exécution concolique automatique\cite{Godefroid2020} \cite{cadar2005execution} \cite{godefroid2005dart}
+SAGE étends d'autres travaux déjà réalisés dans le domaine de l'exécution concolique automatique\cite{Godefroid2020} \cite{cadar2005execution} \cite{godefroid2005dart}.
 Cet outil n'est pas qu'un outil utilisé en recherche académique et a, actuellement, des utilisations dans l'industrie.
-Sa principale utilisation est par Microsoft, notamment pour le débug des OS depuis Windows 7.
+Sa principale utilisation est faite par Microsoft, notamment pour le débug des OS depuis Windows 7.
 %utilisé en prod partout, plus de 100 années machines dans les dents
-Il est estimé que depuis sa mise en service en 2008, a fuzzer des centaines d'applications Microsoft en continu sur des centaines de machines, sage a déjà accumulé plus de 100 années-machines d'exécution\cite{Godefroid2012}.
+Il est estimé que depuis sa mise en service en 2008, il a fuzzé des centaines d'applications Microsoft en continu sur des centaines de machines et que SAGE a déjà accumulé plus de 100 années-machines d'exécution\cite{Godefroid2012}.
 
 %"largest computational usage ever for any Satisfiability-Modulo-Theories (SMT) solver" d'après les auteurs de z3 \cite{moura2008z3}
-Les auteurs du solveur logique Z3 ont qualifié l'utilisation de z3 par SAGE de la façon suivante:
+Les auteurs du solveur logique Z3 ont qualifié l'utilisation de Z3 par SAGE de la façon suivante:
 \begin{center}
 "Largest computational usage ever for any Satisfiability-Modulo-Theories (SMT) solver" \cite{moura2008z3}\\
+\begin{center}
 \line(1,0){2.5cm}$ $ \\
+\end{center}
 L'utilisation la plus grande de tous les temps d'un résolveur SMT [trad] 
 \end{center}
 
@@ -314,12 +317,12 @@ Le test par propriété est une variante, plus poussée, du fuzzing décrit avan
 En effet, c'est une forme de fuzzing mais les différentes entrées vont être générées à partir des propriétés qui sont définies pour chaque entrée.
 Initialement développé en et pour Haskell, l'utilité d'une telle forme de test, surtout dans les programmes définis strictement ou par contraintes mathématiques, s'est avérée grande \cite{Paraskevopoulou2015}.
 
-Ces propriétés définie sur les entrées vont être données à un oracle qui va les traduire en entrées valides pour le programme, d'après sa définition.
-Ces entrées vont pourvoir être ensuite testées avec le programme en question afin de vérifier que celui-ci ne présente pas de comportement non-désirable\cite{Fink1997}.
+Ces propriétés définie sur les entrées vont être données à un oracle qui va les traduire en entrées valides pour le programme, d'après leur définition.
+Ces entrées vont pourvoir être ensuite testées avec le programme en question afin de vérifier que celui-ci ne présente pas de comportement non-désirable \cite{Fink1997}.
 
 L'avantage d'utiliser un tel système est qu'il est possible de couvrir tous les cas particuliers connus liés aux propriétés d'entrée plus facilement.
 En effet, avec les contraintes définies sur les entrées, il est possible de définir une série d'entrées liées à celles-ci.
-Un autre avantage est qu'une fois une entrée problématique a été trouvée, il est possible d'utiliser l'oracle pour réduire cette entrée à une définition minimum afin d'aider au débug du code sous-jacent\cite{Papadakis2011}.
+Un autre avantage est qu'une fois une entrée problématique a été trouvée, il est possible d'utiliser l'oracle pour réduire cette entrée à une définition minimum afin d'aider au débug du code sous-jacent \cite{Papadakis2011}.
 
 Cette méthode présente deux défauts majeurs.
 
@@ -329,7 +332,7 @@ Elle permet uniquement d'assurer qu'il l'est partiellement (avec les entées tes
 Le second est que le set de contraintes / propriétés à écrire pour les entrées est long a définir et peut, dans certains cas, revenir  a réécrire une partie du programme lui même.
 Cela, dans le cas où les propriétés sont définies assez précisément pour qu'elles soient utiles \cite{Papadakis2011}.
 
-\subsection{Fault injection}
+\subsection{Injection de fautes}
 
 L'injection de fautes est une méthode de test consistant à injecter des erreurs dans le programme testé.
 Il existe deux façons principales de le faire.
@@ -350,7 +353,7 @@ Le test de gestion d'erreurs et de robustesse sert à vérifier que la gestion d
 Ils serviront également à déterminer la "zone d'éclat d'une erreur": a quel point celle-ci va avoir un effet profond et grand sur le reste du composant testé.
 Ces tests sont particulièrement utiles pour simuler les erreurs difficiles à simuler en tests unitaires ou bien qui demandent d'émuler un système d'exploitation complet \cite{Marinescu2011}.
 
-Ces erreurs peuvent être injectées a plusieurs endroits différents donc le code source initial, le binaire une fois compilé, la mémoire durant l'exécution ou encore, à un niveau plus macro, supprimer/modifier/corrompre une instance d'un déploiement distribué\cite{Avresky1996}.
+Ces erreurs peuvent être injectées à plusieurs endroits différents; Dont le code source initial, le binaire une fois compilé, la mémoire durant l'exécution ou encore, à un niveau plus macro, supprimer/modifier/corrompre une instance d'un déploiement distribué \cite{Avresky1996}.
 
 \subsection{Utilisation conjointe}
 
@@ -372,24 +375,24 @@ L'université Catholique de Louvain a adopté cette plateforme et a ensuite, afi
 
 Inginious est une plateforme FOSS (Free Open Source Software - Un logiciel gratuit et open source) web de gradation automatique de soumission étudiant.
 Le code des étudiants va être compilé et exécuté dans un environnement sécurisé et, si celui-ci est correct l'utilisateur en sera informé.
-Dans le cas échéant, une information pertinente lui sera fournie.
+Le cas échéant, une information pertinente lui sera fournie.
 
-Pour illustrer les développements qui ont actuellement lieu dans la correction automatique des étudiants et en raiszon de l'abondance de littérature à son sujet, la plateforme Inginious va être prise comme référence.
+Pour illustrer les développements qui ont actuellement lieu dans la correction automatique des étudiants et en raison de l'abondance de littérature à son sujet, la plateforme Inginious va être prise comme référence.
 
 Cette plateforme est l'objet de nombreux développements actuellement qui ont pour but de répondre à divers challenge apparu récemment.
 L'un d'entre eux a été de fournir un feedback plus rapide et plus personnalisé à chaque étudiant, peu importe la quantité dont il a besoin\cite{Staubitz2017}.
 
-Cette plateforme a également été utilisée pour répondre au besoin de correction des participants à un MOOC et permet à tous les étudiants d'avoir une correction adaptée et d'être certains de ou ils se situent dans leur apprentissage\cite{derval2015automatic}.
+Cette plateforme a également été utilisée pour répondre au besoin de correction des participants à un MOOC et permet à tous les étudiants d'avoir une correction adaptée et d'être certains de où ils se situent dans leur apprentissage\cite{derval2015automatic}.
 
 Elle a été adaptée pour tous types de cours, pas seulement les cours de programmation.
-Les cours de réseaux (et les exercices complexes liés à celui-ci) sont également intégré dans cette plateforme\cite{Bonaventure2020}.
+Les cours de réseaux (et les exercices complexes liés à celui-ci) sont également intégré dans cette plateforme \cite{Bonaventure2020}.
 
-Elle a également été adaptée pour les enfants, revenant ainsi sur les pas de son prédécesseur tout en apportant son lot d'améliorations\cite{Thuin} dont entre autres l'intégration de blocks "Blocky" (une forme de développement visuel).
+Elle a également été adaptée pour les enfants, revenant ainsi sur les pas de son prédécesseur tout en apportant son lot d'améliorations \cite{Thuin} dont, entre autres, l'intégration de blocks "Blocky" (une forme de développement visuel).
 
 Parmi les améliorations récentes de ce mode d'apprentissage, on peut notamment citer l'intégration de labels afin de donner un feedback plus précis \cite{Martin}, l'amélioration desdits feedbacks pour être plus pertinents et avoir plus d'impact \cite{Derval2022}, ...
 
 Cette plateforme apporte également des nouvelles opportunités au corps enseignant de connaitre le niveau des étudiants avant l'évaluation.
-Une variante avancée de cette pratique est l'utilisation d'intelligence artificielle pour déterminer à l'avance si un étudiant va réussir l'évaluation finale du cours\cite{Hormaux}.
+Une variante avancée de cette pratique est l'utilisation d'intelligence artificielle pour déterminer à l'avance si un étudiant va réussir l'évaluation finale du cours \cite{Hormaux}.
 
 % =====================================================================
 
@@ -398,8 +401,10 @@ Une variante avancée de cette pratique est l'utilisation d'intelligence artific
 % descriptiuon du problème et du but
 Dans le cadre de la création de nouveaux cours de programmation et d'algorithmique, le corps enseignant de l’Unamur a envisagé d'utiliser la plateforme d'apprentissage Inginious comme support de développement \& correction.
 L'utilisation de cette plateforme implique la création de nombreux tests unitaires afin de fournir un feedback pertinent, rapide et approprié aux étudiants.
-La taille et la complexité de cette tâche a poussé à la création de la question de recherche suivante; Y a t il moyen d'automatiser, au moins partiellement ces tests ?
-Tout grain de temps pertinent, du point de vue enseignant comme du point de vue étudiant est considéré comme intéressant à creuser.
+La taille et la complexité de cette tâche a poussé à la création de la question de recherche suivante;
+Dans quelle mesure les techniques de génération automatique de tests permettent elles de fournir un retour aux étudiants dans le cadre d'exercices de programmation en bachelier informatique ?
+%Y a t il moyen d'automatiser, au moins partiellement ces tests ?
+%Tout grain de temps pertinent, du point de vue enseignant comme du point de vue étudiant est considéré comme intéressant à creuser.
 
 Suite à la réunion de kikoff, il a été déterminé que ce travail se concentrera sur les applications automatiques de tests unitaires suivants diverses stratégies.
 Il a été déterminé que toutes les stratégies de tests classiques seront évaluées.
@@ -411,10 +416,10 @@ Une attention toute particulière doit être apportée à la simplicité d’uti
 
 % pourquoi est ce que les tests sélectionnées ont été sélectionés
 Parmi tous les types de tests considérés, certains n'ont pas été retenus.
-Cette section va décrire pourquoi est ce que certains ont été écartés.
+Cette section va décrire pourquoi est ce qu'ils ont été écartés.
 Des innovations ont été ajoutées car permettant découvrir certains problèmes non soulevés par les autres stratégies dans le code testé.
 
-Un autre facteur qui  a été pris en compte pour la sélection des stratégies de tests a été  une limite de temps.
+Un facteur qui  a été pris en compte pour la sélection des stratégies de tests a été la limite de temps.
 En effet, le temps de développement de ce projet n'étant pas illimité, les stratégies de tests trop complexes à mettre en place pour un retour moindre n'ont pas été retenues.
 
 Parmi les stratégies non implémentées, il y a les tests concoliques (= une forme de fuzzing en boite blanches) qui demandent une intégration complète dans le solutionneur logique Z3 et une instrumentation complète de tout l'interpréteur Python.
@@ -425,7 +430,7 @@ Il a été estimé plus sage de se concentrer sur toutes les autres techniques a
 
 %nope, trop compliqué à correctement / complètement définir pour des tests rapides par rapport à du fuzzing.
 Les tests par propriétés sont très intéressants dans le cas d'application définie très précisément qui ont besoin d'un haut niveau de fiabilité.
-Ce n'est pas l'approche prise par ce projet-ci, qui vise plutôt à pouvoir créer rapidement des tests avec une quantité de code et de définitions d'entrées limité.
+Ce n'est pas l'approche prise par ce mémoire-ci, qui vise plutôt à pouvoir créer rapidement des tests avec une quantité de code et de définitions d'entrées limité.
 Écrire des définitions complète diminuerait fortement l'objectif d'écrire un minimum de code à l'impact de correction le plus grand possible.
 
 Écrire des propriétés d'entrées vagues ou imprécises pour gagner du temps ou en généricité ne feraient que rabaisser l'efficacité et l'approche de cette méthode test à un équivalent au fuzzing en boite noire.
@@ -467,11 +472,11 @@ Cette section couvre les raisons de cette décision.
 
 Le principal problème qui a complexifié énormément l'intégration de tests en boite blanche est la dépendance énorme que ceux-ci vont avoir sur la version précise Python pour lesquels ils vont être développés.
 En effet, ceux-ci s'appuyant sur une instrumentation profonde et compréhensive du parseur et de l'interpréteur Python, il est nécessaire de les adapter pour chaque version mineure et chaque interpréteur Python.
-A l'intérieur d'une version majeure de Python, les mainteneurs de celui-ci garantissent que le langage ne changera pas ou que très peu, mais il n'émet aucune garantie quant au fonctionnement interne de l'interpréteur Python.
-Ce mode de fonctionnement pose un problème quant à la création d'une librairie pérenne de test utilisable dans plus d'un cours et que l'on peut interfacer avec les outils Python que l'on veut car pas tenu par une version mineure précise.
+A l'intérieur d'une version majeure de Python, les mainteneurs de celui-ci garantissent que le langage ne changera pas ou que très peu, mais il n'émettent aucune garantie quant au fonctionnement interne de l'interpréteur Python.
+Ce mode de fonctionnement pose un problème quant à la création d'une librairie pérenne de test utilisable dans plus d'un cours et que l'on peut interfacer avec les outils Python que l'on désire car pas tenu par une version mineure précise.
 
 L'autre problème qui a aidé à pousser la décision de ne pas considérer le fuzzing en boite blanche est l'intégration entre le résolveur logique Z3 et Python ayant une installation et une utilisation particulièrement non triviale.
-Il a été estimé plus sage de concentrer le temps disponible pour le projet sur les autres types de tests, car le temps passé sur ces autres tests aura un retour supérieur au temps passé à intégrer Z3 \& le lien entre Z3 et Python.
+Il a été estimé plus sage de concentrer le temps disponible pour le projet sur les autres types de tests, car le temps passé sur ces autres méthodes de tests aura un retour supérieur au temps passé à intégrer Z3 \& le lien entre Z3 et Python.
 
 \subsubsection{Fuzzing en boite grise}
 
@@ -485,13 +490,13 @@ Plus une entrée a touché un grand nombre de lignes, plus celle-ci va avoir de 
 Cette approche permet d'obtenir, très rapidement, une couverture correcte du code test, tout en passant par un maximum de branches.
 
 \paragraph{Une résolution statique des expressions} a également été intégrée afin de permettre au fuzzer de déduire automatiquement une série d'entrée qui pourraient être pertinentes ou permettraient d'arriver à exécuter plus de lignes du programme.
-le but de cette approche est d'arriver à un couverture plus grande du code testé.
-Celle-ci reste néanmoins limitée car, comme c'est une résolution d'expressions statique, le programme ce heure à un variant du problème d'arrêt.
+Le but de cette approche est d'arriver à une couverture plus grande du code testé.
+Celle-ci reste néanmoins limitée car, comme c'est une résolution d'expressions statique, le programme ce heure à une variante du problème d'arrêt.
 Cette problématique va être analysée en détails dans la partie limitations de ce document.
 
 % auto args
 Afin de rendre la librairie plus facile à prendre en main, une détection automatique des arguments a été mise en place.
-Celle-ci se base sur les annotations d’arguments et permet de passer de code comme présent en figure \ref{fig:fuzzer_args} par le code plus simple présent en figure \ref{fig:fuzzer_no_args}.
+Celle-ci se base sur les annotations d’arguments et permet de passer de code comme présent en figure \ref{fig:fuzzer_args} à un code plus simple (présent en figure \ref{fig:fuzzer_no_args}).
 
 
 \begin{figure}[ht]
@@ -520,7 +525,7 @@ fuzz_explicit_arguments(
 	[Int(), Int()],
 	valid_modules)
 \end{python}
-	\caption{Utilisation de la librairie en mode fuzzer avec le type des arguments explicitement énumérés}
+	\caption{Utilisation de la librairie en mode "fuzzer" avec le type des arguments explicitement énumérés}
 	
 	\label{fig:fuzzer_args}
 \end{figure}
@@ -569,9 +574,9 @@ Pour pouvoir tester ce type de code, une extension de la libraire de test a ét�
 Celle-ci se concentre sur le test des combinaisons d'appels sur une cible.
 Son but est de trouver une suite d'appel à la cible qui mettrait la cible dans un état non-désirable.
 
-L'implémentation actuelle implémente ça via une suite d'appels à des méthodes liées à la cible.
+L'implémentation actuelle fait ça via une suite d'appels à des méthodes liées à la cible.
 Une amélioration possible de celle-ci serait de permettre de tester une application distance sur le réseau.
-Pour cette amélioration, il est nécessaire d'adapter le runner Inginious proposé avec ce projet.
+Pour cette amélioration, il est nécessaire d'adapter le runner Inginious proposé avec ce mémoire.
 
 Cette partie de la libraire fonctionne par étapes, elles-mêmes divisées en actions.
 Les étapes seront toujours exécutées dans l'ordre déclaré et les actions au sein de celles-ci seront exécutées dans un ordre variable.
@@ -606,9 +611,6 @@ Les ordres d'appel de méthodes générés maintiendront toujours deux caractér
 	\caption{Exemple de combinaisons générée par la libraire}
 	\label{fig:combinainaison_util_example}
 \end{figure}
-
-Un exemple d'utilisation de la librairie avec la partie combinaisons, pour une liste liée, de fait comme ceci:
-
 
 \begin{figure}[ht]
 % note : step: premier tab testé, deuxième: réf
@@ -645,9 +647,9 @@ runner.compare_codes(reporter)
 Les erreurs peuvent être détectées par la librairie de deux façons différentes:
 
 \paragraph{En mode comparaisons,} la librairie va tester en même temps la même combinaison d'actions sur le code de référence et le code testé.
-Dans l'exemple ci-dessus (Fig \ref{fig:combinaisons_ref}), les appels testés sont dans le premier tableau passé aux objets "Step" et les appels de référence sont dans le deuxième tableau passé.
+Dans l'exemple (Fig \ref{fig:combinaisons_ref}), les appels testés sont dans le premier tableau passé aux objets "Step" et les appels de référence sont dans le deuxième tableau passé.
 La librairie va  comparer les retours de fonctions ainsi que les erreurs remontées au code de référence lors des tests.
-Si le retour d'un appel de référence n'est pas exactement le même que le retour du code testé, une erreur va être logguée.
+Si le retour d'un appel de référence n'est pas, exactement, le même que le retour du code testé, une erreur va être logguée.
 Si l'exception levée par le code testé n'est pas la même que celle levée par le code de référence ou bien que le code testé a levé une exception et pas le code de référence une erreur va également être logguée. 
 
 
@@ -662,7 +664,7 @@ Un problème récurrent qui a été noté lors du test de cette fonctionnalité 
 Cela est dû au fait qu'une erreur peut, dans bien des cas, être déclenchée par de nombreuses combinaisons d'actions différentes.
 
 Dans le cas de l'exemple cité plus haut, si une erreur et présente dans une des actions de la dernière étapes, toutes les combinaisons d'actions incluant cette action vont être comptées comme en échec et, à cause de cela, toutes celles-ci seront ajoutées dans le logger d'erreurs.
-Cela va générer beaucoup d'erreurs remontées à l'étudiant pour aucune valeur ajoutée.
+Cela va générer beaucoup d'erreurs remontées à l'étudiant, pour aucune valeur ajoutée.
 Si d'autres erreurs sont détectées, elles ne seront probablement pas vues, car noyées dans le bruit généré par cette première erreur.
 
 La solution qui a été adoptée a été d'ajouter au \textit{Runner} une option pour que l'évaluation cesse après une erreur détectée.
@@ -755,8 +757,8 @@ Le premier nom correspondra à la première action, le deuxième au deuxième et
 	\hline   
 	Injection de fautes &
 	\begin{itemize}
-	\item Test complet du code de récupération
-	\item branches complexes à atteindre atteintes
+	\item Test quasi complet du code de récupération
+	\item Branches complexes à atteindre atteintes
 	\end{itemize}
 	 &
 	\begin{itemize}
@@ -792,12 +794,12 @@ Le premier nom correspondra à la première action, le deuxième au deuxième et
 	Fuzzing en boite grise & 
 	\begin{itemize}
 	\item Auto-génération des entrées initiales possibles
-	\item Couvertures des branches moyenne
+	\item Couvertures des branches correcte
 	\item Couverture basique des branches rapidement obtenues
 	\end{itemize}
 	 & 
 	\begin{itemize}
-	\item Couvertures des branches moyenne
+	\item Couvertures des branches parfois moins complète
 	\end{itemize}
 	 & Oui \\ 
 	\hline   
@@ -809,7 +811,7 @@ Le premier nom correspondra à la première action, le deuxième au deuxième et
 	 & 
 	\begin{itemize}
 	\item Complexité à contrôler
-	\item Input d'appel fixés
+	\item Arguments d'entrée des appels fixés
 	\end{itemize}
 	 & Oui \\ 
 	\hline 
@@ -827,7 +829,7 @@ La majeure partie de la réalisation du mémoire a été consacrée à la créat
 La librairie crée est découpée en plusieurs éléments.
 
 Le premier est composé des implémentations des techniques de correction que sont le fuzzing et la combinaison d'exécutions.
-La seconde est l'intégration de ceux-ci dans une libraire simple, contenue elle-même dans un environnent Inginious prêt à être utilisée.
+La seconde est l'intégration de ceux-ci dans un environnent Inginious prêt à être utilisée.
 
 Cette partie du document est dédiée à l'analyse de détails d'intégration notable ou intéressants, à l'examen de l'efficacité de a solution et a une critique de ce qui a été développé en regardant de plus près ses limitations.
 
@@ -931,7 +933,7 @@ Cela permet, si nécessaire, de passer un logger personnalisé / spécialisé / 
 %yeay ez pz
 Comme pour la gestion des erreurs, l'ajout d'un nouveau type de donnée dans le fuzzer a été conçu pour être très simple à faire.
 Un type de donnée est représenté par un objet qui a plusieurs rôles quant à la gestion de la vie de ce type dans le fuzzer.
-C'est celui-ci qui va:
+C'est celui-ci qui va s'occuper de:
 \begin{itemize}
 \item les créer de façon aléatoire
 \item les muter
@@ -1036,7 +1038,8 @@ Pour qu'un type composé soit pris en compte, il est nécessaire d'ajouter toute
 Pour faciliter une intégration rapide et sans problèmes dans la plateforme Inginious, un fichier Docker pour créer un conteneur de vérification Inginious a été créé.
 Une fois ce conteneur créé sur la machine hébergeant Inginious, il suffit de relancer Inginious puis d'aller sélectionner l'environnement "python3-correcteur" dans la tâche.
 
-Ce fichier de construction docker se base sur l'environnent Python 3 de base et ajoute la librairie développée dans le cadre de ce projet sur le path Python afin de permettre une importation aussi simple, par exemple, que ceci:
+Ce fichier de construction docker se base sur l'environnent Python 3 de base et ajoute la librairie développée dans le cadre de ce projet sur le path Python afin de permettre une importation aussi simple.
+Par exemple, que ceci:
 
 \begin{python}
 from correcteur.fuzzing.fuzz import fuzz
@@ -1062,12 +1065,12 @@ Pour aider à l'intégration du projet dans Inginious, un cours d'exemple a ét�
 \item combinateur avec code de référence
 \item combinateur sans code de référence
 \end{itemize}
-ces quatre modes donnent leur feedback de la même façon: écrire le feedback sur la sortie' standard et se servir de cet output comme message de retour.
+Ces quatre modes donnent leur feedback de la même façon: écrire le feedback sur la sortie standard et se servir de cet output comme message de retour.
 Ce comportement est, bien sur, hautement personnalisable et est adaptable facilement aux modèles personnalisés de feedback Inginious.
 
 \section{Efficacité}
 
-Ce projet a été tune pour être réalistement utilisable dans le contexte de l'enseignement.
+Ce projet a été réglé pour être réalistement utilisable dans le contexte de l'enseignement.
 Pour ce faire, certaines concessions  ont été faites et certaines décisions arbitraires ont été prises.
 Celles ci-sont l'objet de cette section.
 
@@ -1078,21 +1081,21 @@ Celles ci-sont l'objet de cette section.
 % qu'est ce qui est pas trouvable
 
 Les deux approches utilisées sont particulièrement adaptées pour trouver certains types de problèmes.
-Celles-ci couvrent une certaines parties des erreurs possibles mais pas toutes.
+Ceux-ci couvrent une certaines parties des erreurs possibles mais pas toutes.
 
 \paragraph{Le fuzzer} sera particulièrement bon pour trouver des cas particuliers non supporté sur les entrées.
-De par sa nature et le fait qu'il est, dans ce cas-ci, fais pour prendre comme entrées de base les nombres hard-codés du programme ainsi que les cas particuliers de chaque type, il va être très efficace pour réussir à déceler les bugs d'entrées non saines.
-L'utilisation principale faite de celui-ci pour trouver les problèmes avec les parties de programme en contact avec les entrées utilisateurs (comme, par exemple le "Security Development lifecycle" créé par Microsoft \cite{howard2006security}) abonde dans ce sens.
+De par sa nature et le fait qu'il est, dans ce cas-ci, fait pour prendre comme entrées de base les nombres hard-codés du programme ainsi que les cas particuliers de chaque type, il va être très efficace pour réussir à déceler les bugs d'entrées non saines.
+L'utilisation principale faite de celui-ci pour trouver les problèmes avec les parties de programme en contact avec les entrées utilisateurs abonde dans ce sens (comme, par exemple le "Security Development lifecycle" créé par Microsoft \cite{howard2006security}).
 
 \paragraph{L'algorithme de combinaison d'appels} va être particulièrement utile pour trouver des combinaisons d'action qui vont créer un état interne du programme indésirable.
 Tous les états problématiques ne seront pas trouvés, seuls ceux qui résultent en une erreur détectable par le programme de test.
-Celui-ci reste limité par son ignorance des paramètres et sa concentration sur les appels (les paramètres sont fixés au travers de tous les appels).
+Celui-ci reste limité par son ignorance des paramètres et sa concentration sur les appels (les paramètres sont fixés pour tous les appels).
 
 \paragraph{Les problèmes non trouvés} peuvent être multiples.
 
 Les bugs qui ont besoin, pour être déclenchés de combinaisons d'appels et de paramètres spécifiques vont être très difficiles à déceler.
 Globalement, plus un problème présent dans un programme a besoin d'une grande combinaison d'appels ou d'un nombre élevé de paramètre pour arriver, plus difficilement il sera décelé par les approches de test automatique décrites dans ce document.
-Une façon de palier en partie à ce problème de rajouter certaines analyses statiques et des conventions fortes pour éviter que ces situations problématiques complexes puissent apparaître.
+Une façon de palier, en partie, à ce problème de rajouter certaines analyses statiques et des conventions fortes pour éviter que ces situations problématiques complexes puissent apparaître.
 
 Les problèmes qui, pour être détectés ou apparaitre dépendent d'évènement externe non anticipé sont également plus difficiles à déceler avec les approches prises ici.
 L'environnent étant fort contrôlé, ajouter des tests par l'injection de fautes ne serait pas fort intéressant.
@@ -1102,10 +1105,11 @@ Une autre approche possible est d'utiliser de l'injection de fautes.
 \subsection{Valeurs par défaut}
 % valeurs raisonable par défaut sinon c'est la meeeeeeeeeeeeeerde
 Un des choix arbitraire qu'il a fallu faire sont toutes les valeurs par défaut utilisées.
-Celles ci sont très importantes car, si bien réglées, permettent d'utiliser plus facilement le projet en devant développer moins, ce qui est un des objectifs de ce projet.
+Celles ci sont très importantes car, si bien réglées, permettent d'utiliser plus facilement le projet en devant développer moins, ce qui est un des objectifs de ce mémoire.
 
 Ces valeurs par défauts ont été trouvées empiriquement en utilisant un un exemple représentatif souvent utilisé dans les cours d'algorithmique (une implémentation partiellement fausse de Dijkstra a été utilisé).
-La machine sur laquelle ces tests ont été faits étant relativement puissante (cpu: AMD ryzen 7 5800x), cet effet a également été pris en compte en divisant le résultat obtenu par la fréquence de la machine hôte et multipliant le chiffre obtenu par 2.5Ghz (un cpu de serveur moyen de gamme actuel, par exemple le AMD EPYC 7502, atteint ces performances).
+La machine sur laquelle ces tests ont été faits est relativement puissante (cpu: AMD ryzen 7 5800x).
+Cet effet a été pris en compte en divisant le résultat obtenu par la fréquence de la machine hôte et multipliant le chiffre obtenu par 2.5Ghz (un cpu de serveur moyen de gamme actuel, par exemple le AMD EPYC 7502, atteint ces performances).
 Ce nombre a finalement été arrondi vers le bas pour rajouter un peu de marge.
 
 \chapter{Discussions}
@@ -1115,15 +1119,16 @@ Cette section va se concentrer sur plusieurs approches possibles pour tester ce 
 
 Pour commencer, les bénéfices apportés par un telle approche seront explorées.
 Ensuite, certaines expériences ont été imaginées pour tester quelles seraient l'approche idéale avec les outils disponibles et si la librairie produite fait partie de ces outils.
-Dans la foulée, une attention toute particulière sera apporté à la constitution des groupes d'étude, certains détails rendent celle-ci intéressante.
-Enfin, les limitations actuellement connues de ce qui a été produit seront explorées.
+Dans la foulée, une attention toute particulière sera apporté à la constitution des groupes d'étude, certains détails rendant celle-ci intéressante.
+Enfin, les limitations actuellement connues / identifiés de ce qui a été produit seront explorées.
 
 \section{Amélioration de l'apprentissage}
 % lol, ca va aider à faire plus d tests auto, donc on va attraper des "avantages" 
 
 % potentiel d'améilloration de l'apprentissage derval2015automatic
-L'optique de recherche de ce mémoire étant directement lié à la quantité d'exercice disponible à un étudiant pour un cours donné et à la qualité de la correction qui lui est disponible, les avantages d'avoir un cours bien réalisé sur une plateforme d'apprentissage en ligne avec correction automatique s'appliquent également ici.
-Les remarques faites ici sont applicables également aux cours construits dans le cadre d'un MOOC.
+L'optique de recherche de ce mémoire est directement lié à la quantité d'exercice disponible à un étudiant pour un cours donné et à la qualité de la correction qui lui est disponible.
+Les avantages d'avoir un cours bien réalisé sur une plateforme d'apprentissage en ligne avec correction automatique s'appliquent également ici.
+%Les remarques faites ici sont applicables également aux cours construits dans le cadre d'un MOOC.
 
 % apprentissage à la demande
 L'apprentissage, l'application de la matière et l'entrainement à la demande permettent aux étudiants de pouvoir réaliser et étudier le cours quand ils le désirent, peu importe que la faculté dans laquelle ils sont inscrits soit disponible ou pas.
@@ -1131,7 +1136,7 @@ Il n'est plus nécessaire de jongler avec une armée d'assistants et de travaux 
 
 % autant d'essais que nécéssaires
 Les étudiants arrêtent d'êtres limités dans le temps mais également en nombre d'essais.
-Si un profil particulier à besoin de 200 essais pour comprendre la façon dont une partie de la matière fonctionne, cela devient disponible, il n'est plus limité par les ressources humaines plus limités de son lieu d'enseignement.
+Si un profil particulier à besoin de 200 essais pour comprendre la façon dont une partie de la matière fonctionne, cela devient possible, il n'est plus limité par les ressources humaines plus limités de son lieu d'enseignement.
 Les profils pour lesquels les travaux pratiques en journée ne conviennent pas pourront en toute liberté les faire quand ils le désirent, à toute heure du jour et de la nuit; le jour du cours ou la veille de l'examen.
 
 % feedback personalisé (feedback enrichis  Derval2022 )
@@ -1144,9 +1149,9 @@ Ce genre d'approche permet au prof de donner son cours de façon plus dynamique 
 En cas de lacune particulière remarquée, il devient possible d'adapter ou de repasser sur un point de matière en particulier.
 
 
-\section{Contribution de la librairie a la réussite}
+\section{Contribution de la librairie à la réussite}
 Cette section se concentre sur plusieurs expériences et approches qui pourraient être mises en place afin de tester précisément l'impact de ce qui a été produit dans la cadre ce mémoire sur l'expérience et l'apprentissage étudiant.
-Comme c'est une approche théorique net qu'il est nécessaire de pourvoir d'adapter à la réalité du terrain, plusieurs solutions ont, à chaque fois, été proposées.
+Comme c'est une approche théorique et qu'il est nécessaire de pourvoir d'adapter à la réalité du terrain, plusieurs solutions ont, à chaque fois, été proposées.
 
 
 \subsection{Protocoles de test}
@@ -1158,12 +1163,12 @@ Comme ce qui est testé ici est uniquement la partie cachée de la plateforme de
 
 Éviter des phénomènes qui pourraient se produire, tels qu'un étudiant qui voit sa motivation modifiée, car il est sur une plateforme différente de ses congénères ou, car il a eu un accès spécial qui lui a été donné par un assistant (qui pourrait simplement être une autre version du test), est capital car ceux-ci ne sont pas des phénomènes désirables pour  la pertinence des résultats.
 
-Au même titre, il est important que le personnel enseignant, et plus particulièrement celui qui va se charger de la correction de l'examen final, ne doit pas savoir quel participant fait partie de quel groupe.
+Au même titre, il est important que le personnel enseignant, et plus particulièrement celui qui va se charger de la correction de l'examen final, ne sache pas quel participant fait partie de quel groupe.
 de nouveau, pour éviter qu'un biais quelconque n'apparaisse.
 Ne pas connaitre les noms des étudiants lors de la correction finale n'est pas suffisant car chaque étudiant ayant un style propre.
 Le personnel enseignant pourrait, même inconsciemment, associer le style personnel de l'étudiant à celui-ci et donc à voir un biais de correction.
 
-Avec la plateforme Inginious il est possible que cette décision soit gérée par la plateforme en elle même est que les résultats de l'expérience ne soient divulgués qu'une fois le cours clôturé.
+Avec la plateforme Inginious il est possible que cette décision soit gérée par la plateforme en elle même et que les résultats de l'expérience ne soient divulgués qu'une fois le cours clôturé.
 Dans ce cas ci, cette approche est beaucoup plus pertinente.
 
 \paragraph{Deux façons de tester} ont été envisagée et l'application de l'une ou l'autre dépend du type d'exercice qui est testé.
@@ -1185,7 +1190,7 @@ Si cela n'est pas possible, le quatrième groupe peut être supprimé et le seco
 
 % unit vs combi vs pas d'accès
 La seconde possibilité découpe des participants en quatre groupes aussi, mais au lieu d'avoir un groupe qui va être corrigé par le fuzzer et un groupe qui va être corrigé par les tests unitaires et le fuzzer,  il y aura un groupe qui va être corrigé par les tests combineurs et un groupe  qui va etre corrigé par les tests unitaires et les tests combineur.
-Cet arrangement-ci est plus adapté l'exercice testé est quelque chose sur lequel on teste des combinaisons d'appel (comme mentionnée précédemment, par exemple une liste liée)
+Cet arrangement-ci est plus adapté l'exercice testé est quelque chose sur lequel on teste des combinaisons d'appel (comme mentionnée précédemment, par exemple, une liste liée)
 
 \subsection{Constitution des groupes d'étude}
 %% attention le groupe doit etre assez grand (idéalement, la taille théorique de chaque groupe > 30 pour etre stat significant
@@ -1196,8 +1201,8 @@ La répartition est envisageable de trois façons différentes qui vont être d�
 
 \paragraph{Une répartition aléatoire} a quelques avantages non négligeables \textit{si} le groupe de participants à découper en groupe est assez grand.
 En effet, ce mode de répartition permet de garantir qu'un groupe ne possédera pas de caractéristiques particulières distincte des autres.
-Cela est d'application uniquement si le groupe est assez grand.
-Dans le cas où le groupe n'est pas assez grand (cette limite dépendant du nombre de facteurs à contrôler: plus il y en a plus il faut un grand groupe pour que la répartition au hasard marche) il y a un risque 'un groupe aie une caractéristique distinctive ce qui rendrait les résultats inutilisables, car cette caractéristique pourrait être la justification de la moindre observation faite.
+%Cela est d'application uniquement si le groupe est assez grand.
+Dans le cas où le groupe n'est pas assez grand (cette limite dépendant du nombre de facteurs à contrôler: plus il y en a plus il faut un grand groupe pour que la répartition au hasard marche) il y a un risque qu'un groupe aie une caractéristique distinctive ce qui rendrait les résultats inutilisables, car cette caractéristique pourrait être la justification de la moindre observation faite.
 
 % attribution hashée
 %% pas de biais dans l'attribution des groupes
@@ -1210,7 +1215,7 @@ Utiliser un hash plutôt qu'une assignation aléatoire permet de réellement dé
 % ou bien atriution en répartition en groupes équitable d'après les groupes spotté par un classificateur ml \cite{Hormaux}
 \paragraph{Une répartition sur base d'intelligence artificielle} peut être utilisée afin de garantir une répartition en groupe plus uniforme.
 Dans un premier temps, un classificateur classerait les étudiants par profil de performances \cite{Hormaux} et dans un second temps, l'expérience commencerait avec des groupes composés de tous les types de profils, répartit de façon homogène.
-l'avantage de cette approche est qu'elle marche aussi avec de plus petits groupes et ne laisse pas la chance d'une répartition uniforme au hasard.
+L'avantage de cette approche est qu'elle marche aussi avec de plus petits groupes et ne laisse pas la chance d'une répartition uniforme au hasard.
 
 
 \section{Limitations}
@@ -1231,7 +1236,7 @@ Les tests automatiques ne sont pas omniscients et peuvent avoir des zones aveugl
 Son développement a été étalé sur une période limitée et les approchées sélectionnées ont tenu compte de ce facteur.
 
 
-Tous ces éléments combinés ont pour conséquence que cette librairie, bien que conçue pour tirer le meilleur de certaines tactiques de détection de problèmes, n'est pas la solution parfaite ultime mais une approximation qui se veut le plus proche de celle-ci.
+Tous ces éléments combinés ont pour conséquence que cette librairie, bien que conçue pour tirer le meilleur de certaines tactiques de détection de problèmes, n'est pas la solution parfaite mais une approximation qui se veut le plus proche de celle-ci.
 
 Certaines des limitations sont traitées plus en profondeur au fil de la section suivante.
 
@@ -1359,7 +1364,7 @@ Une des solutions possible aurait été de combiner un fuzzer avec cette partie 
 Cela a été envisagé mais n'a pas été fait pour une question de réalisme.
 Il n'est pas envisageable de, réalistement, fuzzer toutes les étapes de toutes les combinaisons d'exécution d'actions: cela amènerait une complexité temporelle beaucoup trop élevée et ne serait pas utilisable dans le cadre du projet.
 Les soumissions des étudiants ont besoin d'être rapidement évaluées et un compromis entre complétude et rapidité a été fait ici.
-Sans celui-ci l'étudiant aurait un retour extrêmement précis… après plusieurs années de traitement de la soumission.
+Sans celui-ci, l'étudiant aurait un retour extrêmement précis… après plusieurs années de traitement de la soumission.
 
 
 
@@ -1367,7 +1372,7 @@ Sans celui-ci l'étudiant aurait un retour extrêmement précis… après plusie
 % f*cking shitty Python interpretter => lock on all the strcuts : GIL; used by Cpython, the interpretter used in 99% of Python usages
 
 Une autre limitation du projet, pas liée au projet en lui-même mais à Python est le manque de parallélisme.
-En effet, l'implémentation la plus classique de l'interpréteur Python, CPython, utilise GIL (Global Internal Lock) sur tous les objets Python\cite{archiveThreadStateGIDPython}.
+En effet, l'implémentation la plus classique de l'interpréteur Python, CPython, utilise GIL (Global Internal Lock) sur tous les objets Python \cite{archiveThreadStateGIDPython}.
 
 Ce lock global interne est utilisé pour protéger tous objets Python et empêcher les accès concurrents à ceux ci.
 La seule forme de concurrence que cet interpréteur Python supporte est l'entrelacement de threads au sein d'un seul et unique processus.
@@ -1376,7 +1381,7 @@ Les seuls gains possibles sont des gains possibles sur les temps d'I/O, ce qui e
 Même dans ce cas-là, les gains seront très vite nullifiés, car le temps perdu à l'orchestration des threads deviendra plus grand que le temps gagné par l'utilisation des threads.
 Cela implique que, même en créant une multitude de threads, l'efficacité des tests n'en sera que, au mieux, très peu augmenté et dans la majorité des cas, diminué.
 
-Une autre possibilité est d'utiliser plusieurs processus différents mais, de nouveau, comme l'interpréteur Python a un GIL\cite{pythonGlobalInterpreterLockPython} et ne supporte pas le parallélisme cette option est compliquée à mettre en place.
+Une autre possibilité est d'utiliser plusieurs processus différents mais, de nouveau, comme l'interpréteur Python a un GIL \cite{pythonGlobalInterpreterLockPython} et ne supporte pas le parallélisme cette option est compliquée à mettre en place.
 La seule solution est de lancer plusieurs interpréteurs en même temps et d'utiliser une technique d'IPC (Inter-Process Communication) pour les synchroniser.
 Cette solution, très lourde, est plateforme dépendante et est donc très peu intéressante dans le cas de ce projet qui se veut rapide, léger et efficace.
 
