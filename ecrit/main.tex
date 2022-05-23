@@ -131,7 +131,7 @@ L'application de tests automatiques au code soumis par les étudiants sur une pl
 Il permet de fournir de meilleurs retour, sur plus d'exercices, créés plus rapidement.
 Des méthodes des tests automatiques sont analysées et une sélection est faite sur ceux qui, de par leurs caractéristiques, sont les plus intéressant dans le contexte de la correction automatique des codes d'étudiants.
 Les méthodes retenues sont le fuzzing en boite grise et le test de combinaisons d'appels sur une structure donnée.
-L'efficacité de celles-ci est discuté et une application pratique est développée sous la forme d'une librairie de test qui s'intègre dans la plateforme de correction automatique Inginious.
+L'efficacité de celles-ci est discutée et une application pratique est développée sous la forme d'une librairie de test qui s'intègre dans la plateforme de correction automatique Inginious.
 Les limitations sont analysées et un protocole de test des modifications apportées par celle-ci est ensuite proposé pour pouvoir quantifier les gains apportés via une expérience pratique.
 
 
@@ -142,11 +142,11 @@ Les limitations sont analysées et un protocole de test des modifications apport
 
 Les techniques de génération automatiques de tests permettent de fournir une aide utile au corps enseignant pour créer un retour rapide et pertinent sur les soumissions de code d'étudiants soumis dans le cadre d'un bachelier en informatique tout en permettant de ne devoir créer qu'un minimum de code lors de la mise ne place du cours et de ses exercices.
 
-Le but de ce mémoire est d'évaluer les différentes techniques de tests automatique qui existent, de regarder dans quelle mesure elles sont adaptés à la correction de code d'étudiants dans le cadre d'une plateforme de correction automatique et d'évaluer l'apport effectué par cette technique à l'apprentissage des étudiants et au travail réalisé par le corps enseignant.
+Le but de ce mémoire est d'évaluer les différentes techniques de tests automatique qui existent, de regarder dans quelle mesure elles sont adaptées à la correction de code d'étudiants dans le cadre d'une plateforme de correction automatique et d'évaluer l'apport effectué par cette technique à l'apprentissage des étudiants et au travail réalisé par le corps enseignant.
 
 Pour ce faire, ce document est découpé en trois parties.
 
-Dans un premier temps, toutes les techniques des tests automatiques seront explorées; avec leurs défauts et avantages mis en avant.
+Dans un premier temps, un large éventail de technique de tests automatiques seront explorées; avec leurs défauts et avantages mis en avant.
 Une sélection sera fait parmi celles-là.
 Ensuite, une analyse sera faite de certains points pertinents à l'application desdites techniques de tests.
 Enfin, un commentaire sera fait sur leur implémentation et un protocole de test pour vérifier l'efficacité de ce qui a été créé en pratique.
@@ -169,7 +169,7 @@ Ils n'ont été tous intégrés pour des raisons décrites plus loin.
 
 %Le style le plus classique et ancien
 Pour des raisons de complétude, il est intéressant d’inclure dans cette liste de méthodes et techniques de test la façon la plus ancienne qui existe: l’écriture et l’utilisation de tests unitaires.
-Ces tests, bien que plus ciblé et direct que les tests automatiques ne sont pas sans défauts.
+Ces tests, bien que plus ciblés et directs que les tests automatiques ne sont pas sans défauts.
 
 % Prends du temp
 Ils sont plus lents à écrire et nécessitent beaucoup plus de ressources que leurs contreparties automatiques.
@@ -183,7 +183,7 @@ Ce biais de confirmation rend l'utilisation de ces tests unitaire inutile car la
 Une méthode utilisée pour combattre ce phénomène est de faire du développement par le comportement (appelée BDD = Behavior Drive Developpement dans l'industrie) qui va consister à écrire les tests avant d'écrire le code et, idéalement, que ces tests initiaux soient écrits par quelqu'un d'autre que le développeur de la fonctionnalité.
 
 %flackiness \cite{Luo2014}
-Un autre problème classique récurent des tests unitaires écrits à la main est la “flackiness” ($\approx$ non fiabilité et instabilité).
+Un autre problème classique récurent des tests unitaires écrits à la main est la “flackiness” (i.e. l'instabilité d'un test lorsque que celui-ci est exécuté plusieurs fois).
 Ce problème diminue fortement l'efficacité des-dits tests, car ils ne permettent plus de s'appuyer dessus afin de garantir que le software fonctionne correctement.
 Des erreurs de tests à la fréquence assimilable à de l'aléatoire, n'apportent aucune information pertinente supplémentaire \cite{Luo2014}.
 
@@ -193,7 +193,7 @@ Ces divers problèmes et défauts des tests unitaires écrits à la main ont men
 
 \subsection{Fuzzing}
 
-Lors de son invention, le terme “Fuzzing” avait pour signification de fournir des entrées aléatoires à un programme, dans le but d'en augmenter la robustesse \cite{Forrester2000}.
+Lors de son invention, le terme “Fuzzing” avait pour signification de fournir rapidement et en grand nombre des entrées aléatoires à un programme, dans le but d'en augmenter la robustesse \cite{Forrester2000}.
 
 Aujourd’hui, les pratiques regroupées sous le terme fuzzing sont nombreuses et variées et servent plusieurs buts différents.
 L'utilisation la plus classique  de cette technique est la sécurisation des parties de logicielle qui interagissent avec des entrées extérieures \cite{Godefroid2020} (on peut par exemple citer le fait que du fuzzing est une des étapes incluses dans le "Microsoft Security Development Lifecycle" \cite{howard2006security} ).
@@ -295,7 +295,7 @@ Cet outil est utilisé dans une des étapes finales de release des produits Micr
 Les bugs à millions sont des bugs qui, s’ils passent en production, couteraient collectivement, aux utilisateurs finaux, plus d'un million pour résoudre, patcher et re-déployer le code problématique \cite{Godefroid2012}.
 
 %qui étend le travail d'autre sur la génération de tests auto \cite{Godefroid2020} \cite{cadar2005execution} \cite{godefroid2005dart}
-SAGE étends d'autres travaux déjà réalisés dans le domaine de l'exécution concolique automatique\cite{Godefroid2020} \cite{cadar2005execution} \cite{godefroid2005dart}.
+SAGE étends d'autres travaux déjà réalisés dans le domaine de l'exécution concolique automatique \cite{Godefroid2020} \cite{cadar2005execution} \cite{godefroid2005dart}.
 Cet outil n'est pas qu'un outil utilisé en recherche académique et a, actuellement, des utilisations dans l'industrie.
 Sa principale utilisation est faite par Microsoft, notamment pour le débug des OS depuis Windows 7.
 %utilisé en prod partout, plus de 100 années machines dans les dents
@@ -319,6 +319,7 @@ Initialement développé en et pour Haskell, l'utilité d'une telle forme de tes
 
 Ces propriétés définie sur les entrées vont être données à un oracle qui va les traduire en entrées valides pour le programme, d'après leur définition.
 Ces entrées vont pourvoir être ensuite testées avec le programme en question afin de vérifier que celui-ci ne présente pas de comportement non-désirable \cite{Fink1997}.
+Un autre oracle peut être définit pour contraindre quelles sont les états finaux valides ou non.
 
 L'avantage d'utiliser un tel système est qu'il est possible de couvrir tous les cas particuliers connus liés aux propriétés d'entrée plus facilement.
 En effet, avec les contraintes définies sur les entrées, il est possible de définir une série d'entrées liées à celles-ci.
@@ -344,9 +345,9 @@ Cette méthode consiste à, directement au niveau du matériel, provoquer des er
 \paragraph{Introduire des erreurs au niveau logiciel} est la façon la plus répandue de faire des tests par injection de fautes.
 Il est possible d'en faire à divers niveaux, en boite noire et en en boite blanche.
 Cette méthode teste principalement la robustesse du code testé et sa capacité à récupérer des erreurs.
-Une autre utilisation, moins répandue, est de tester si des tests unitaires couvrent correctement le code testé.
+Une autre utilisation, est de tester si des tests unitaires sont à même de détecter des bugs (cette technique est aussi appelée du test par mutation).
 
-Pour utiliser l'injection de faute pour tester la couverture de tests unitaires, une ou plusieurs fautes seront injectées dans le code.
+Pour utiliser l'injection de faute pour tester les tests unitaires, une ou plusieurs fautes seront injectées dans le code.
 Le test réussira si les tests unitaires détectent et échouent à cause de l'erreur injectée \cite{Segall}.
 
 Le test de gestion d'erreurs et de robustesse sert à vérifier que la gestion d'erreurs est correcte, que le code / le composant testé sait récupérer correctement d'un problème et de prévoir la façon dont certaines fautes vont de dérouler \cite{Avresky1996} (on peut appliquer cette méthode à des systèmes entiers \cite{Lenka2018}).
@@ -402,7 +403,9 @@ Une variante avancée de cette pratique est l'utilisation d'intelligence artific
 Dans le cadre de la création de nouveaux cours de programmation et d'algorithmique, le corps enseignant de l’Unamur a envisagé d'utiliser la plateforme d'apprentissage Inginious comme support de développement \& correction.
 L'utilisation de cette plateforme implique la création de nombreux tests unitaires afin de fournir un feedback pertinent, rapide et approprié aux étudiants.
 La taille et la complexité de cette tâche a poussé à la création de la question de recherche suivante;
+\begin{quote}
 Dans quelle mesure les techniques de génération automatique de tests permettent elles de fournir un retour aux étudiants dans le cadre d'exercices de programmation en bachelier informatique ?
+\end{quote}
 %Y a t il moyen d'automatiser, au moins partiellement ces tests ?
 %Tout grain de temps pertinent, du point de vue enseignant comme du point de vue étudiant est considéré comme intéressant à creuser.
 
@@ -416,14 +419,16 @@ Une attention toute particulière doit être apportée à la simplicité d’uti
 
 % pourquoi est ce que les tests sélectionnées ont été sélectionés
 Parmi tous les types de tests considérés, certains n'ont pas été retenus.
-Cette section va décrire pourquoi est ce qu'ils ont été écartés.
-Des innovations ont été ajoutées car permettant découvrir certains problèmes non soulevés par les autres stratégies dans le code testé.
+Cette section va décrire pourquoi ils ont été écartés.
+Des innovations ont été ajoutées pour mieux détecter certains problèmes moins soulevés par les autres stratégies dans le code testé.
 
 Un facteur qui  a été pris en compte pour la sélection des stratégies de tests a été la limite de temps.
 En effet, le temps de développement de ce projet n'étant pas illimité, les stratégies de tests trop complexes à mettre en place pour un retour moindre n'ont pas été retenues.
 
 Parmi les stratégies non implémentées, il y a les tests concoliques (= une forme de fuzzing en boite blanches) qui demandent une intégration complète dans le solutionneur logique Z3 et une instrumentation complète de tout l'interpréteur Python.
 Il a été estimé plus sage de se concentrer sur toutes les autres techniques afin de maximiser les résultats du projet au lieu de se concentrer sur celle-là.
+
+Dans le reste de cette section, nous revenons sur les différentes approches et discutons leur inclusion ou exclusion de la liste des techniques adoptées.
 
 
 \subsection{Tests par propriétés}
@@ -439,7 +444,7 @@ Cette technique étant considérée à part, il ne reste plus d'intérêt à fai
 \subsection{Injection de fautes}
 
 %pas pertinent: on teste pas des tests unitaires, on ne teste pas le niveau de récupération et partillement rendondant avec l'apporche par seed a couverture du fuzzing
-Les tests par injection de fautes sont principalement utilisées dans deux cas: le test de la qualité de tests unitaires et le test du code de récupération en cas d'erreur.
+Les tests par injection de fautes sont principalement utilisés dans deux cas: le test de la qualité de tests unitaires et le test du code de récupération en cas d'erreur.
 
 Le test de la qualité des tests unitaires n'est pas intéressant dans ce cas-ci: ils sont générés à la volée et s'adaptent dynamiquement au problème posé ce qui rend la génération de tests par injection de fautes impossible dans une majorité des cas.
 Les cas restant sont des cas qui ne feront que confirmer ce qui a été explicitement mis en avant ou détecté par le code de génération de tests.
@@ -491,8 +496,8 @@ Cette approche permet d'obtenir, très rapidement, une couverture correcte du co
 
 \paragraph{Une résolution statique des expressions} a également été intégrée afin de permettre au fuzzer de déduire automatiquement une série d'entrée qui pourraient être pertinentes ou permettraient d'arriver à exécuter plus de lignes du programme.
 Le but de cette approche est d'arriver à une couverture plus grande du code testé.
-Celle-ci reste néanmoins limitée car, comme c'est une résolution d'expressions statique, le programme ce heure à une variante du problème d'arrêt.
-Cette problématique va être analysée en détails dans la partie limitations de ce document.
+Celle-ci reste néanmoins limitée car, comme c'est une résolution d'expressions statique, le programme se heurte à une variante du problème d'arrêt.
+Cette problématique va être analysée en détails dans la partie limitations de ce document (cfr. Section 5.3.2 ).
 
 % auto args
 Afin de rendre la librairie plus facile à prendre en main, une détection automatique des arguments a été mise en place.
@@ -565,7 +570,7 @@ fuzz(reporter,
 % combinaison
 Lors de la création de la librairie de tests automatiques, il a été vite mis en lumière qu'un cas en particulier, relativement facile à tester, n'était pas pris en charge avec les techniques de fuzzing classiques utilisée jusqu’à présent.
 En effet, dans le cadre des cours données et algorithmique, il sera, pour certains exercices, demandé aux étudiants de ne pas créer un programme complet mais uniquement une structure de données qui doit répondre à certains critères de développement.
-Cette structure de données peut être utilisée de beaucoup de façon différente et suivre plusieurs flux d'exécution différents; typiquement en fonction des appels qui sont faits sur celle-ci.
+Cette structure de données peut être utilisée de façons différentes et suivre plusieurs flux d'exécution différents; typiquement en fonction des appels qui sont faits sur celle-ci.
 
 Par exemple, dans le cas d'une liste liée, il est possible de la manipuler de bien de façons correctes différentes si certaines contraintes sont suivies (ici, elle doit être initialisée au début et détruite à la fin).
 L'ordre des ajouts, retrait et consultations n'est pas fixé et la structure doit pourvoir supporter un ordre et une quantité variable de ceux-ci.
@@ -574,9 +579,10 @@ Pour pouvoir tester ce type de code, une extension de la libraire de test a ét�
 Celle-ci se concentre sur le test des combinaisons d'appels sur une cible.
 Son but est de trouver une suite d'appel à la cible qui mettrait la cible dans un état non-désirable.
 
-L'implémentation actuelle fait ça via une suite d'appels à des méthodes liées à la cible.
-Une amélioration possible de celle-ci serait de permettre de tester une application distance sur le réseau.
-Pour cette amélioration, il est nécessaire d'adapter le runner Inginious proposé avec ce mémoire.
+L'implémentation actuelle fait cela via une suite d'appels à des méthodes liées à la cible.
+Dans son implémentation actuelle, elle est limités à un seul programme testé en local.
+Une amélioration possible de celle-ci serait de permettre de tester une application distante sur le réseau.
+Pour mettre cette amélioration en place, il est nécessaire d'adapter l'environnent Inginious proposé avec ce mémoire.
 
 Cette partie de la libraire fonctionne par étapes, elles-mêmes divisées en actions.
 Les étapes seront toujours exécutées dans l'ordre déclaré et les actions au sein de celles-ci seront exécutées dans un ordre variable.
@@ -671,7 +677,7 @@ La solution qui a été adoptée a été d'ajouter au \textit{Runner} une option
 
 Dans le cas où plusieurs erreurs sont présentes dans le code, une seule sera remontée par exécution et l'étudiant devra les corriger au fur et la mesure de ses soumissions.
 Ce compromis a été fait, car une re-soumission n'est pas très couteuse et ne pénalise pas l'étudiant.
-En plus, ce retour limité à une seule erreur ne diminue que de peu la pertinence du retour donné à l'étudiant, car toutes les erreurs de son implémentation seront détectées sur les multiples soumissions de son code…
+En plus, ce retour limité à une seule erreur ne diminue que de peu la pertinence du retour donné à l'étudiant, car toutes les erreurs de son implémentation seront détectées sur les multiples soumissions de son code.
   
 
 %nice name
@@ -1112,10 +1118,13 @@ La machine sur laquelle ces tests ont été faits est relativement puissante (cp
 Cet effet a été pris en compte en divisant le résultat obtenu par la fréquence de la machine hôte et multipliant le chiffre obtenu par 2.5Ghz (un cpu de serveur moyen de gamme actuel, par exemple le AMD EPYC 7502, atteint ces performances).
 Ce nombre a finalement été arrondi vers le bas pour rajouter un peu de marge.
 
+\section{Distribution}
+%TODO 1/2 page lien vers repo et quelques info sur le proto
+
 \chapter{Discussions}
 
-Les techniques sélectionnées au fil de ce mémoire ont été implémentées mais n'ont été testées sur le terrain.
-Cette section va se concentrer sur plusieurs approches possibles pour tester ce qui a été produit ainsi que quelles sont les limitations actuelles de celle-ci.
+Les techniques sélectionnées au fil de ce mémoire ont été implémentées mais n'ont pas été testées sur le terrain au delà du projet d'exemple.
+Cette section va se concentrer sur plusieurs approches possibles pour tester ce qui a été produit ainsi que l'identification des limitations possibles.
 
 Pour commencer, les bénéfices apportés par un telle approche seront explorées.
 Ensuite, certaines expériences ont été imaginées pour tester quelles seraient l'approche idéale avec les outils disponibles et si la librairie produite fait partie de ces outils.
@@ -1131,13 +1140,13 @@ Les avantages d'avoir un cours bien réalisé sur une plateforme d'apprentissage
 %Les remarques faites ici sont applicables également aux cours construits dans le cadre d'un MOOC.
 
 % apprentissage à la demande
-L'apprentissage, l'application de la matière et l'entrainement à la demande permettent aux étudiants de pouvoir réaliser et étudier le cours quand ils le désirent, peu importe que la faculté dans laquelle ils sont inscrits soit disponible ou pas.
+L'apprentissage, l'application de la matière et l'entrainement à la demande permettent aux étudiants de pouvoir réaliser et étudier le cours quand ils le désirent.
 Il n'est plus nécessaire de jongler avec une armée d'assistants et de travaux pratiques, tout en gardant une qualité d'apprentissage très proche de l'ancien système de travaux pratique en petits groupes en classe \cite{derval2015automatic}.
 
 % autant d'essais que nécéssaires
 Les étudiants arrêtent d'êtres limités dans le temps mais également en nombre d'essais.
-Si un profil particulier à besoin de 200 essais pour comprendre la façon dont une partie de la matière fonctionne, cela devient possible, il n'est plus limité par les ressources humaines plus limités de son lieu d'enseignement.
-Les profils pour lesquels les travaux pratiques en journée ne conviennent pas pourront en toute liberté les faire quand ils le désirent, à toute heure du jour et de la nuit; le jour du cours ou la veille de l'examen.
+Si un profil particulier à besoin de 200 essais pour comprendre la façon dont une partie de la matière fonctionne, cela devient possible, il n'est plus limité par les ressources humaines limitées de son lieu d'enseignement.
+Les profils pour lesquels les travaux pratiques en journée ne conviennent pas pourront en toute liberté les faire quand ils le désirent, à toute heure du jour et de la nuit.
 
 % feedback personalisé (feedback enrichis  Derval2022 )
 L'utilisation de plateforme de correction en ligne permet de rajouter un élément personnalisé à la correction et un retour enrichi qui permettra à l'étudiant de progresser plus efficacement dans son appropriation du cours \cite{Derval2022}.
@@ -1179,12 +1188,12 @@ Celles-ci vont être passées en revue afin de permettre une application optimal
 La première est concentrée sur la partie fuzzer et s'adresse plutôt à un exercice dont les tests se concentrent sur une seule interface.
 En effet, les limitations du fuzzer étant ce qu'elles sont, le fuzzer ne sait pas tester de combinaisons d'appels différents; uniquement des combinaisons du même appel avec des entrées différentes.
 Le test serait divisé en quatre groupes.
-\begin{itemize}
+\begin{enumerate}
 \item le premier serait corrigé exclusivement par le fuzzer.
 \item le second serait corrigé exclusivement par des tests unitaires écrits à la main adaptée spécialement pour l'exercice.
 \item le troisième serait une combinaison des deux. Les tests unitaires seraient d'abord exécutés puis, si ceux-ci n'ont rien trouvé, le reste du temps d'exécution disponible dans le runner Inginious serait utilisé pour le fuzzer (qui, bien sur, serait paramétré pour prendre moins de temps et faire moins de tests pour accommoder le temps réduit. Utiliser les valeurs par défaut dans ce cas-ci n'est pas adapté).
 \item le quatrième  devrait se débrouiller sans la plateforme de correction automatique, comme groupe de contrôle.
-\end{itemize}
+\end{enumerate}
 Note qu'il peut être difficile de faire un test en double aveugle dans lequel un groupe n'aurait pas accès du tout à la plateforme de correction mais certaines circonstances le permettraient, par exemple, dans le cas de cours donné à distance ou de petits groupes qui n'ont pas de contacts entre eux.
 Si cela n'est pas possible, le quatrième groupe peut être supprimé et le second groupe, celui qui utilise exclusivement les tests unitaires et rien de la librairie, peut être considéré comme le témoin.
 
@@ -1213,8 +1222,8 @@ Utiliser un hash plutôt qu'une assignation aléatoire permet de réellement dé
 
 
 % ou bien atriution en répartition en groupes équitable d'après les groupes spotté par un classificateur ml \cite{Hormaux}
-\paragraph{Une répartition sur base d'intelligence artificielle} peut être utilisée afin de garantir une répartition en groupe plus uniforme.
-Dans un premier temps, un classificateur classerait les étudiants par profil de performances \cite{Hormaux} et dans un second temps, l'expérience commencerait avec des groupes composés de tous les types de profils, répartit de façon homogène.
+\paragraph{Une répartition sur base des résultats précédents ou d'un test de positionnement} peut être utilisée afin de garantir une répartition en groupe plus uniforme.
+Dans un premier temps, un élément classificateur (résultats précédents, test de placement, ...) classerait les étudiants par profil de performances \cite{Hormaux} et dans un second temps, l'expérience commencerait avec des groupes composés de tous les types de profils, répartit de façon homogène.
 L'avantage de cette approche est qu'elle marche aussi avec de plus petits groupes et ne laisse pas la chance d'une répartition uniforme au hasard.
 
 
@@ -1280,7 +1289,7 @@ Plusieurs problèmes, certains liés à la façon dont Python est conçu vont em
 Le fait qu'une variable en Python puisse être de n'importe quel type et changer plusieurs fois de type au cours de sa vie va complexifier énormément la détection du type de l'argument.
 
 Les fonctions en Python n'ayant pas le type de retour inclus obligatoirement dans la signature de la fonction, il est impossible de déduire automatiquement le type de retour de la fonction sans devoir remonte  à travers le code de cette fonction récursivement.
-Pour palier à cela, il sera nécessaire de contraindre logiquement résolution du type d'argument, ce qui impliquerait de prédire certaines informations sur la fonction.
+Pour palier cela, il sera nécessaire de contraindre logiquement résolution du type d'argument, ce qui impliquerait de prédire certaines informations sur la fonction.
 Une des conséquences du typing dynamique de Python est qu'une des choses qui devrait être déduite serait de savoir si une branche serait explorée ou non.
 Par exemple, si le résultat d'une condition complexe est passée à la fonction de la figure \ref{fig:condition_complexe_résolution}, déterminer statiquement le type de la sortie devient impossible sans avoir résolu la valeur du bool d'entrée, sachant que celui peut rester indéfini tant que le programme n'est pas exécuté et peut varier d'une exécution à l'autre.
 Déterminer si une branche va être atteinte ou pas est une extension du problème d'arrêt \cite{burkholder1987halting}: au lieu de chercher si on va atteindre une branche particulière (celle qui mène à l'arrêt du programme), on va cherche à atteindre n'importe quelle autre branche en particulier.
