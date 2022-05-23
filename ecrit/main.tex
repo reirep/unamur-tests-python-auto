@@ -1119,7 +1119,39 @@ Cet effet a été pris en compte en divisant le résultat obtenu par la fréquen
 Ce nombre a finalement été arrondi vers le bas pour rajouter un peu de marge.
 
 \section{Distribution}
-%TODO 1/2 page lien vers repo et quelques info sur le proto
+% 1/2 page lien vers repo et quelques info sur le proto
+Le code développé est mis à disposition via deux git publiques:
+\begin{itemize}
+\item \url{https://git.ortegat.com/pierre/Memoire_unamur}
+\item \url{https://github.com/reirep/unamur-tests-python-auto}
+\end{itemize}
+
+Celui sur "ortegat.com" est celui qui a été principalement utilisé et le clone fait de celui-ci sur Github est là pour la pérennité du code.
+
+Sur ce repo git, une branche "\textit{ecrit}" contient ce document.
+
+Quatre éléments sont intéressants à connaître pour aborder ce repo.
+
+Tout la librairie est contenue dans le dossier "\textit{correcteur}" et celui-ci est découpé en composants haut niveau.
+Il est composé:
+\begin{itemize}
+\item du dossier feedback qui contient tout le code nécessaire au logging et remontage des erreurs et messages vers les étudiants.
+\item du dossier fuzzing qui contient le fuzzer en greybox
+\item du dossier steps qui contient l'algorithme de combinatoire
+\end{itemize}
+
+Le cours d'exemple qui a été produit pour aider à l'utilisation de la libraire se trouve dans "\textit{ressources/www/inginious/tasks/autocorrect}".
+Celui-ci est conçu pour être simple à suivre et comprendre.
+
+Le \textit{Dockerfile} qui permet de construire un environnent Inginious prêt à être utilisé.
+
+le fichier \textit{main.py} qui contient quelques exemples d'utilisation simple de la libraire.
+
+\subsubsection{Démarrage rapide}
+
+Pour mettre en place rapidement ce projet dans un Inginious déjà existant, il est simplement nécessaire de faire un "\textit{make docker}" à la racine du projet.
+Un docker (et environnent de test Inginious) du nom de "python3-correcteur" va être créé et, après un redémarrage d'Inginious, pourra être utilisé directement dans les cours.
+Pour voir des exemple d'intégrations, regarder le cours de test présent dans le dossier "\textit{ressources/www/inginious/tasks/autocorrect}".
 
 \chapter{Discussions}
 

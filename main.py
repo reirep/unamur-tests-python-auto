@@ -57,10 +57,10 @@ if __name__ == '__main__':
 
     blind_fuzz_noref(reporter, valid_modules)
 
-    #token_finder(call_fn, valid_modules)
+    token_finder(call_fn, valid_modules)
 
-    #step_analyse(reporter)
-    #fuzz_it(reporter, valid_modules)
+    step_analyse(reporter)
+    fuzz_it(reporter, valid_modules)
 
     for line in reporter.get_output():
         print(line)
